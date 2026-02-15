@@ -1,0 +1,5 @@
+Wallpaper Wallpaper.qml
+
+singleton Config Config.qml
+
+singleton Audio Audio.qml

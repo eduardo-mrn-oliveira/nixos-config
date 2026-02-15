@@ -1,0 +1,21 @@
+Taskbar Taskbar.qml
+
+singleton Theme Theme.qml
+
+ClockWidget ClockWidget.qml
+singleton Time Time.qml
+
+TrayWidget TrayWidget.qml
+TrayMenu TrayMenu.qml
+TrayMenuView TrayMenuView.qml
+Direction Direction.qml
+
+BatteryWidget BatteryWidget.qml
+
+AudioWidget AudioWidget.qml
+singleton Audio Audio.qml
+
+NetworkWidget NetworkWidget.qml
+
+WorkspacesWidget WorkspacesWidget.qml
+singleton Workspaces Workspaces.qml
