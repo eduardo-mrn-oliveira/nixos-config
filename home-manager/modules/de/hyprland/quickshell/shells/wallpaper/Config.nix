@@ -1,38 +1,35 @@
 {config, ...}: let
-	isAnimated =
-		if config.theming.wallpaper.startAnimated
-		then "true"
-		else "false";
+	cfg = config.theming.wallpaper;
 
-	isMuted =
-		if config.theming.wallpaper.isMuted
-		then "true"
-		else "false";
+	isAnimated = builtins.toJSON cfg.startAnimated;
+	isMuted = builtins.toJSON cfg.isMuted;
+
+	volume = builtins.toJSON cfg.volume;
 
 	wallpaper = {
 		image =
-			if config.theming.wallpaper.image != null
-			then "\"file://${config.theming.wallpaper.image}\""
+			if cfg.image != null
+			then "\"file://${cfg.image}\""
 			else "null";
 
 		video =
-			if config.theming.wallpaper.video != null
-			then "\"file://${config.theming.wallpaper.video}\""
+			if cfg.video != null
+			then "\"file://${cfg.video}\""
 			else "null";
 	};
 in ''
 	pragma Singleton
-
 	import QtQuick
 	import Quickshell
 
 	Singleton {
-		property bool isAnimated: ${isAnimated}
-		property bool isMuted: ${isMuted}
+	    property bool isAnimated: ${isAnimated}
+	    property bool isMuted: ${isMuted}
+	    property int volume: ${volume}
 
-		readonly property var wallpaper: QtObject {
-			readonly property var image: ${wallpaper.image}
-			readonly property var video: ${wallpaper.video}
-		}
+	    readonly property var wallpaper: QtObject {
+	        readonly property var image: ${wallpaper.image}
+	        readonly property var video: ${wallpaper.video}
+	    }
 	}
 ''

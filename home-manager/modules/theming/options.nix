@@ -28,5 +28,12 @@ with lib; {
 				default = true;
 				description = "Whether the wallpaper video should be muted or not.";
 			};
+
+		volume =
+			mkOption {
+				type = types.ints.between 0 100;
+				default = 100;
+				description = "The volume for the wallpaper video when unmuted.";
+			};
 	};
 }

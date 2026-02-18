@@ -9,6 +9,7 @@
 	quickshell =
 		inputs.quickshell.packages.${system}.quickshell.withModules [
 			pkgs.qt6.qtmultimedia
+			inputs.qs-qml-types.packages.${system}.qs-qml-types
 		];
 
 	shellsRoot = ./shells;

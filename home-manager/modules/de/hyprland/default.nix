@@ -187,6 +187,11 @@ in {
 					# Hide/unhide taskbar
 					"$mod, W, exec, qs ipc call taskbar toggle"
 
+					# Wallpaper
+					"$mod SHIFT, space, exec, qs ipc call wallpaper toggle"
+					"$mod, space, exec, qs ipc call wallpaper toggleAnimation"
+					"$mod ALT, space, exec, qs ipc call wallpaper playPause"
+
 					# Restart Quickshell
 					"$mod SHIFT, W, exec, systemctl --user restart quickshell"
 

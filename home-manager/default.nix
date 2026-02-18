@@ -39,6 +39,8 @@ in {
 		./modules/mpv.nix
 
 		./modules/default-apps.nix
+
+		./modules/direnv.nix
 	];
 
 	home = {

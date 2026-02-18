@@ -37,6 +37,36 @@ ShellRoot {
         }
     }
 
+    property var wallpaper: QtObject {
+        property bool visible: true
+    }
+
+    IpcHandler {
+        target: "wallpaper"
+
+        function toggle(): void {
+            root.wallpaper.visible = !root.wallpaper.visible;
+
+            if (root.wallpaper.visible && Config.isAnimated) {
+                Video.play();
+            } else {
+                Video.pause();
+            }
+        }
+
+        function toggleAnimation(): void {
+            if (root.wallpaper.visible) {
+                Config.isAnimated = !Config.isAnimated;
+            }
+        }
+
+        function playPause(): void {
+            if (root.wallpaper.visible) {
+                Video.playPause();
+            }
+        }
+    }
+
     Instantiator {
         model: Quickshell.screens
 
@@ -45,6 +75,8 @@ ShellRoot {
             required property var modelData
 
             Wallpaper {
+                visible: root.wallpaper.visible
+
                 screen: shell.modelData
             }
 

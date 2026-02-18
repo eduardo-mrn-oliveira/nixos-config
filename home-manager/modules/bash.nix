@@ -81,7 +81,11 @@
 
 		# Don't set a fancy prompt for non-interactive shells or simple terminals.
 		if [[ "$-" == *i* ]] && { [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; }; then
-			PROMPT_COMMAND="''${PROMPT_COMMAND:+$PROMPT_COMMAND;}_build_prompt"
+			if [[ "$(declare -p PROMPT_COMMAND 2>/dev/null)" =~ "declare -a" ]]; then
+				PROMPT_COMMAND+=(_build_prompt)
+			else
+				PROMPT_COMMAND="''${PROMPT_COMMAND:+$PROMPT_COMMAND;}_build_prompt"
+			fi
 		fi
 	'';
 }

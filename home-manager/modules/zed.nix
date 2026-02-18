@@ -1,5 +1,7 @@
 {
 	pkgs,
+	inputs,
+	system,
 	config,
 	...
 }: {
@@ -140,12 +142,15 @@
 				"qml" = {
 					"binary" = {
 						"arguments" = [
+							"-E"
 							"-I"
 							"${config.programs.quickshell.package}/lib/qt-6/qml"
 							"-I"
 							"${pkgs.qt6.qtdeclarative}/lib/qt-6/qml"
 							"-I"
 							"${pkgs.qt6.qtmultimedia}/lib/qt-6/qml"
+							"-I"
+							"${inputs.qs-qml-types.packages.${system}.qs-qml-types}/lib/qt-6/qml"
 						];
 					};
 				};
@@ -162,6 +167,7 @@
 					};
 				};
 			};
+			"load_direnv" = "direct";
 			"debugger" = {
 				"dock" = "right";
 			};

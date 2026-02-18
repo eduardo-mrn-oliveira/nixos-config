@@ -3,7 +3,6 @@ import QtQml
 import QtMultimedia
 import Quickshell
 import Quickshell.Wayland
-import Quickshell.Hyprland
 
 // qmllint disable uncreatable-type
 PanelWindow {
@@ -33,15 +32,11 @@ PanelWindow {
         fillMode: Image.Stretch
     }
 
-    Video {
+    VideoOutput {
         id: animatedWallpaper
         anchors.fill: parent
 
-        source: Config.wallpaper.video ?? ""
-
-        loops: MediaPlayer.Infinite
         fillMode: VideoOutput.Stretch
-        muted: true
 
         opacity: 0
         visible: opacity > 0
@@ -61,8 +56,7 @@ PanelWindow {
                 SequentialAnimation {
                     ScriptAction {
                         script: {
-                            animatedWallpaper.play();
-                            // Audio.play();
+                            VideoManager.play();
                         }
                     }
                     NumberAnimation {
@@ -85,26 +79,24 @@ PanelWindow {
                     }
                     ScriptAction {
                         script: {
-                            animatedWallpaper.stop();
-                            // Audio.stop();
+                            VideoManager.pause();
                         }
                     }
                 }
             }
         ]
+
+        Component.onCompleted: VideoManager.splitter.addOutput(videoSink)
+        Component.onDestruction: VideoManager.splitter.removeOutput(videoSink)
     }
 
     MouseArea {
         anchors.fill: parent
 
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        acceptedButtons: Qt.RightButton
 
-        onClicked: mouse => {
-            if (mouse.button === Qt.RightButton) {
-                Config.isAnimated = !Config.isAnimated;
-            } else {
-                Hyprland.dispatch("hyprtasking:toggle cursor");
-            }
+        onClicked: {
+            Config.isAnimated = !Config.isAnimated;
         }
     }
 }

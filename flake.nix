@@ -44,6 +44,15 @@
 			url = "github:quickshell-mirror/quickshell";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
+
+		qs-qml-types = {
+			url = "gitlab:eduardo-mrn-oliveira/qs-qml-types";
+			inputs.nixpkgs.follows = "quickshell/nixpkgs";
+		};
+
+		direnv-instant = {
+			url = "github:Mic92/direnv-instant";
+		};
 	};
 
 	outputs = {

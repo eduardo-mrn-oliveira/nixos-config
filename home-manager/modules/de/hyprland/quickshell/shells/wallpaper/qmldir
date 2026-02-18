@@ -2,4 +2,4 @@ Wallpaper Wallpaper.qml
 
 singleton Config Config.qml
 
-singleton Audio Audio.qml
+singleton VideoManager VideoManager.qml
