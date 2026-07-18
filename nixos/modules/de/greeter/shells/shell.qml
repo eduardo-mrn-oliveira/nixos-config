@@ -1,0 +1,111 @@
+pragma ComponentBehavior: Bound
+
+import QtQuick
+import QtMultimedia
+import Quickshell
+import Quickshell.Wayland
+import Qs.yVanisher.Components
+
+ShellRoot {
+    id: root
+
+    // Background
+
+    property bool isWallpaperEnabled: true
+    property bool isWallpaperAnimated: false
+
+    readonly property bool shouldPlayVideo: isWallpaperEnabled && isWallpaperAnimated
+
+    readonly property var fillModeLookup: ({
+            "Stretch": {
+                static: Image.Stretch,
+                animated: VideoOutput.Stretch
+            },
+            "PreserveAspectFit": {
+                static: Image.PreserveAspectFit,
+                animated: VideoOutput.PreserveAspectFit
+            },
+            "PreserveAspectCrop": {
+                static: Image.PreserveAspectCrop,
+                animated: VideoOutput.PreserveAspectCrop
+            }
+        })
+
+    Connections {
+        target: Config.values
+
+        function onStartEnabledChanged() {
+            root.isWallpaperEnabled = Config.values.startEnabled;
+        }
+
+        function onStartAnimatedChanged() {
+            root.isWallpaperAnimated = Config.values.startAnimated;
+        }
+    }
+
+    MediaController {
+        id: mediaController
+
+        source: Config.values.animatedSource ? `file://${Config.values.animatedSource}` : ""
+
+        volume: Config.values.volume
+        isMuted: Config.values.isMuted
+
+        loops: MediaPlayer.Infinite
+    }
+
+    Instantiator {
+        model: Quickshell.screens
+
+        // qmllint disable uncreatable-type
+        PanelWindow {
+            id: window
+
+            anchors {
+                top: true
+                bottom: true
+                left: true
+                right: true
+            }
+
+            WlrLayershell.layer: WlrLayer.Overlay
+            focusable: window.index === 0
+
+            Shortcuts {
+                target: root
+                mediaController: mediaController
+            }
+
+            required property int index
+            required property var modelData
+
+            screen: modelData
+
+            color: "black"
+
+            AnimatedBackground {
+                anchors.fill: parent
+                visible: root.isWallpaperEnabled
+
+                hasControlOverMedia: window.index === 0
+
+                mediaController: mediaController
+                isAnimated: root.shouldPlayVideo
+
+                staticSource: Config.values.staticSource ? `file://${Config.values.staticSource}` : ""
+
+                staticFillMode: root.fillModeLookup[Config.values.staticFillMode]?.static ?? Image.PreserveAspectFit
+                animatedFillMode: root.fillModeLookup[Config.values.animatedFillMode]?.animated ?? VideoOutput.PreserveAspectFit
+            }
+
+            // Greeter
+
+            Loader {
+                active: window.index === 0
+                anchors.fill: parent
+
+                source: "GreeterSurface.qml"
+            }
+        }
+    }
+}
