@@ -1,3 +1,3 @@
-{pkgs, ...}: {
-	boot.kernelPackages = pkgs.linuxPackages_zen;
+{sys, ...}: {
+	boot.kernelPackages = sys.linuxPackages_zen;
 }

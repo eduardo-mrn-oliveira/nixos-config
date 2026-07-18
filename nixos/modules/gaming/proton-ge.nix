@@ -1,5 +1,5 @@
-{pkgs, ...}: {
-	programs.steam.extraCompatPackages = with pkgs; [
-		proton-ge-bin
+{rolling, ...}: {
+	programs.steam.extraCompatPackages = [
+		rolling.proton-ge-bin
 	];
 }

@@ -1,5 +1,6 @@
 {
 	imports = [
+		./flake.nix
 		./home-manager.nix
 		./lix.nix
 		./nh.nix

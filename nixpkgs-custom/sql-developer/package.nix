@@ -31,12 +31,14 @@ stdenv.mkDerivation rec {
 				exec = "sql-developer %F";
 				terminal = false;
 				categories = ["Development" "IDE"];
+				keywords = ["sql" "developer"];
 			})
 	];
 
 	nativeBuildInputs = with pkgs; [
 		unzip
 		makeWrapper
+		copyDesktopItems
 	];
 
 	buildInputs = with pkgs; [
@@ -44,12 +46,16 @@ stdenv.mkDerivation rec {
 	];
 
 	installPhase = ''
+		runHook preInstall
+
 		mkdir -p $out/bin
 
 		mkdir -p $out/sql-developer
 		cp -r ./* $out/sql-developer
 
 		makeWrapper $out/sql-developer/sqldeveloper/bin/sqldeveloper $out/bin/sql-developer
+
+		runHook postInstall
 	'';
 
 	meta = with lib; {

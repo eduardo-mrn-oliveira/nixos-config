@@ -3,7 +3,7 @@ pragma Singleton
 import QtQuick
 import QtMultimedia
 import Quickshell
-import Qs.Custom
+import Qs.yVanisher.Multimedia
 
 Singleton {
     id: root

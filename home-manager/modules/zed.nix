@@ -3,15 +3,24 @@
 	inputs,
 	system,
 	config,
+	rolling,
 	...
-}: {
+}: let
+	hyprland =
+		inputs.hyprland.packages.${system}.hyprland;
+in {
+	xdg.configFile."zed/stubs/hyprland".source = "${hyprland}/share/hypr/stubs";
+
 	programs.zed-editor = {
 		enable = true;
+
+		package = rolling.zed-editor;
 
 		extensions = [
 			"angular"
 			"basher"
 			"csharp"
+			"deno"
 			"dockerfile"
 			"emmet"
 			"git-firefly"
@@ -57,12 +66,43 @@
 			# Qt
 			qt6.qtdeclarative
 
+			# Deno
+			deno
+
+			# Lua
+			lua-language-server
+
+			# Web
+			prettier
+
 			# Other
 			package-version-server
-			nodePackages.prettier
 		];
 
 		userSettings = {
+			"auto_update_extensions" = {
+				"angular" = false;
+				"basher" = false;
+				"csharp" = false;
+				"deno" = false;
+				"dockerfile" = false;
+				"emmet" = false;
+				"git-firefly" = false;
+				"github-theme" = false;
+				"html" = false;
+				"java" = false;
+				"log" = false;
+				"lua" = false;
+				"make" = false;
+				"material-icon-theme" = false;
+				"neocmake" = false;
+				"nix" = false;
+				"php" = false;
+				"qml" = false;
+				"scss" = false;
+				"sql" = false;
+				"zig" = false;
+			};
 			"base_keymap" = "VSCode";
 			"telemetry" = {
 				"diagnostics" = false;
@@ -73,6 +113,19 @@
 			"buffer_font_family" = "FiraCode Nerd Font";
 			"ui_font_size" = 18;
 			"buffer_font_size" = 16;
+			inlay_hints = {
+				enabled = false;
+				# show_type_hints = true;
+				# show_parameter_hints = true;
+				# show_other_hints = true;
+				show_background = true;
+				# edit_debounce_ms = 700;
+				# scroll_debounce_ms = 50;
+
+				toggle_on_modifiers_press = {
+					alt = true;
+				};
+			};
 			"theme" = {
 				"mode" = "system";
 				"light" = "GitHub Dark";
@@ -85,7 +138,8 @@
 						"external" = {
 							"command" = "clang-format";
 							"arguments" = [
-								"--style={UseTab: Always, IndentWidth: 4, TabWidth: 4, IndentCaseLabels: true, AllowShortIfStatementsOnASingleLine: true, AllowShortFunctionsOnASingleLine: false, AllowShortBlocksOnASingleLine: false, AllowShortCaseLabelsOnASingleLine: false, AllowShortLoopsOnASingleLine: true}"
+								"--style=file"
+								"--fallback-style=none"
 								"--assume-filename={buffer_path}"
 							];
 						};
@@ -96,7 +150,8 @@
 						"external" = {
 							"command" = "clang-format";
 							"arguments" = [
-								"--style={UseTab: Always, IndentWidth: 4, TabWidth: 4, IndentCaseLabels: true, AllowShortIfStatementsOnASingleLine: true, AllowShortFunctionsOnASingleLine: false, AllowShortBlocksOnASingleLine: false, AllowShortCaseLabelsOnASingleLine: false, AllowShortLoopsOnASingleLine: true, FixNamespaceComments: false}"
+								"--style=file"
+								"--fallback-style=none"
 								"--assume-filename={buffer_path}"
 							];
 						};
@@ -125,6 +180,54 @@
 				};
 				"Plain Text" = {
 					"ensure_final_newline_on_save" = false;
+				};
+				"Angular" = {
+					"formatter" = {
+						"external" = {
+							"command" = "prettier";
+							"arguments" = ["--stdin-filepath" "{buffer_path}"];
+						};
+					};
+				};
+				"TypeScript" = {
+					"formatter" = {
+						"external" = {
+							"command" = "prettier";
+							"arguments" = ["--stdin-filepath" "{buffer_path}"];
+						};
+					};
+				};
+				"HTML" = {
+					"formatter" = {
+						"external" = {
+							"command" = "prettier";
+							"arguments" = ["--stdin-filepath" "{buffer_path}"];
+						};
+					};
+				};
+				"SCSS" = {
+					"formatter" = {
+						"external" = {
+							"command" = "prettier";
+							"arguments" = ["--stdin-filepath" "{buffer_path}"];
+						};
+					};
+				};
+				"JSON" = {
+					"formatter" = {
+						"external" = {
+							"command" = "prettier";
+							"arguments" = ["--stdin-filepath" "{buffer_path}"];
+						};
+					};
+				};
+				"JSONC" = {
+					"formatter" = {
+						"external" = {
+							"command" = "prettier";
+							"arguments" = ["--stdin-filepath" "{buffer_path}"];
+						};
+					};
 				};
 			};
 			"tab_size" = 4;
@@ -166,6 +269,26 @@
 						};
 					};
 				};
+				"lua-language-server" = {
+					"binary" = {
+						"path" = "${pkgs.lua-language-server}/bin/lua-language-server";
+						"ignore_system_version" = true;
+					};
+					"settings" = {
+						"Lua" = {
+							"workspace" = {
+								"library" = [
+									"${config.home.homeDirectory}/.config/zed/stubs/hyprland"
+								];
+							};
+							"diagnostics" = {
+								"globals" = [
+									"mp"
+								];
+							};
+						};
+					};
+				};
 			};
 			"load_direnv" = "direct";
 			"debugger" = {
@@ -175,34 +298,47 @@
 
 		userKeymaps = [
 			{
-				"context" = "Workspace";
 				"bindings" = {
 					"ctrl-'" = "workspace::ToggleBottomDock";
+
 					"super-shift-p" = "command_palette::Toggle";
 
-					"alt-x" = [
-						"task::Spawn"
-						{
-							"task_name" = "Build active file";
-							"reveal_target" = "dock";
-						}
-					];
+					"alt-f5" = "debugger::Start";
+					"shift-f5" = "debugger::Stop";
 
-					"alt-c" = [
-						"task::Spawn"
-						{
-							"task_name" = "Test active file";
-							"reveal_target" = "dock";
-						}
-					];
-				};
-			}
-			{
-				"context" = "Editor";
-				"bindings" = {
-					"ctrl-'" = "workspace::ToggleBottomDock";
+					"f3" = "task::Rerun";
+					"f4" = "task::Spawn";
 				};
 			}
 		];
 	};
+
+	home.file.".clang-format".text =
+		"BasedOnStyle: LLVM\n"
+		+ "\n"
+		+ "UseTab: Always\n"
+		+ "IndentWidth: 4\n"
+		+ "TabWidth: 4\n"
+		+ "ColumnLimit: 100\n"
+		+ "\n"
+		+ "IndentCaseLabels: true\n"
+		+ "\n"
+		+ "AllowShortIfStatementsOnASingleLine: true\n"
+		+ "AllowShortFunctionsOnASingleLine: false\n"
+		+ "AllowShortBlocksOnASingleLine: false\n"
+		+ "AllowShortCaseLabelsOnASingleLine: false\n"
+		+ "AllowShortLoopsOnASingleLine: true\n"
+		+ "\n"
+		+ "AlignAfterOpenBracket: BlockIndent\n"
+		+ "\n"
+		+ "FixNamespaceComments: false\n"
+		+ "\n";
+
+	home.file.".prettierrc".text =
+		"{\n"
+		+ "\t\"useTabs\": true,\n"
+		+ "\t\"tabWidth\": 4\n"
+		+ "}\n";
+
+	home.file.".config/rustfmt/rustfmt.toml".text = "hard_tabs = true\n";
 }

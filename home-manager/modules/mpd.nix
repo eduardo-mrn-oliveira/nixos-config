@@ -1,10 +1,18 @@
 {
 	services.mpd = {
 		enable = true;
-		# TODO: Virtual sink
+
+		extraConfig = ''
+			audio_output {
+				type "pipewire"
+				name "PipeWire Sound Server"
+			}
+		'';
 	};
 
 	programs.rmpc = {
 		enable = true;
+
+		config = ''()'';
 	};
 }

@@ -84,14 +84,16 @@ Item {
     Loader {
         active: root.activeAnchor !== null
 
-        sourceComponent: TrayMenu {
-            anchorItem: root.activeAnchor
+        sourceComponent: Component {
+            TrayMenu {
+                anchorItem: root.activeAnchor
 
-            qsMenuHandle: root.activeMenuData.menu
+                qsMenuHandle: root.activeMenuData.menu
 
-            onRequestClose: {
-                root.activeAnchor = null;
-                root.activeMenuData = null;
+                onRequestClose: {
+                    root.activeAnchor = null;
+                    root.activeMenuData = null;
+                }
             }
         }
     }

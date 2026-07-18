@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+	pkgs,
+	config,
+	...
+}: let
 	wallpaper = {
 		source = {
 			image = ./wallpapers/white-eyes.jpg;
@@ -47,13 +51,18 @@ in {
 		./options.nix
 	];
 
-	theming.wallpaper.image = ./wallpapers/reze.jpg;
-	theming.wallpaper.video = ./wallpapers/reze.mp4;
+	# theming.wallpaper.image = ./wallpapers/reze.jpg;
+	# theming.wallpaper.video = ./wallpapers/reze.mp4;
+
+	theming.wallpaper.image = "${config.xdg.userDirs.pictures}/Wallpapers/phrolova-wind.png";
+	theming.wallpaper.video = "${config.xdg.userDirs.pictures}/Wallpapers/phrolova-wind.mp4";
 
 	# theming.wallpaper.image = wallpaper.image;
 	# theming.wallpaper.video = wallpaper.video;
 
 	home.packages = [pkgs.base16-schemes];
+
+	home.pointerCursor.enable = true; # Got a trace. Is it from Stylix?
 
 	stylix = {
 		enable = true;

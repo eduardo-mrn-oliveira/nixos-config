@@ -44,6 +44,7 @@ in
 					icon = "netdimas";
 					terminal = false;
 					categories = ["Development" "IDE" "Java"];
+					keywords = ["netdimas" "netbeans"];
 				})
 		];
 
@@ -52,6 +53,7 @@ in
 			gnused
 			coreutils
 			nixpkgs-oraclejdk8.oraclejdk8
+			copyDesktopItems
 		];
 
 		buildInputs = [
@@ -61,6 +63,8 @@ in
 		dontUnpack = true;
 
 		buildPhase = ''
+			runHook preBuild
+
 			set -e
 
 			local block_size=1024
@@ -93,9 +97,13 @@ in
 			echo "Running the NetBeans installer..."
 
 			java -jar $installer_path --silent > /dev/null
+
+			runHook postBuild
 		'';
 
 		installPhase = ''
+			runHook preInstall
+
 			set -e
 
 			echo "Copying installation..."
@@ -130,6 +138,8 @@ in
 
 			mkdir -p $out/share/icons/hicolor/256x256/apps
 			cp $netbeans_path/nb/netbeans.png $out/share/icons/hicolor/256x256/apps/netdimas.png
+
+			runHook postInstall
 		'';
 
 		meta = with lib; {

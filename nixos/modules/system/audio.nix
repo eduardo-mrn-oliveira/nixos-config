@@ -1,10 +1,43 @@
-{
+{pkgs, ...}: {
 	security.rtkit.enable = true;
 	services.pipewire = {
 		enable = true;
 		alsa.enable = true;
 		alsa.support32Bit = true;
 		pulse.enable = true;
+
+		extraLadspaPackages = with pkgs; [
+			rnnoise-plugin
+		];
+
+		wireplumber.extraConfig."10-disable-suspend" = {
+			"monitor.bluez.rules" = [
+				{
+					matches = [
+						{"node.name" = "~bluez_input.*";}
+						{"node.name" = "~bluez_output.*";}
+					];
+					actions = {
+						update-props = {
+							"session.suspend-timeout-seconds" = 0;
+						};
+					};
+				}
+			];
+			"monitor.alsa.rules" = [
+				{
+					matches = [
+						{"node.name" = "~alsa_input.*";}
+						{"node.name" = "~alsa_output.*";}
+					];
+					actions = {
+						update-props = {
+							"session.suspend-timeout-seconds" = 0;
+						};
+					};
+				}
+			];
+		};
 
 		extraConfig.pipewire."20-virtual-sinks" = {
 			"context.objects" = [
@@ -34,6 +67,33 @@
 		extraConfig.pipewire."21-virtual-sinks-loopbacks" = {
 			"context.modules" = [
 				{
+					name = "libpipewire-module-filter-chain";
+					args = {
+						"node.description" = "Noise Canceling Microphone";
+						"media.name" = "Noise Canceling Microphone";
+						"filter.graph" = {
+							nodes = [
+								{
+									type = "ladspa";
+									name = "rnnoise";
+									plugin = "librnnoise_ladspa";
+									label = "noise_suppressor_mono";
+									control = {
+										"VAD Threshold (%)" = 50.0;
+									};
+								}
+							];
+						};
+						"capture.props" = {
+							"node.passive" = true;
+						};
+						"playback.props" = {
+							"media.class" = "Audio/Source";
+							"node.name" = "Virtual-Mic-Noise-Canceling";
+						};
+					};
+				}
+				{
 					name = "libpipewire-module-loopback";
 					args = {
 						"node.description" = "Loopback for Virtual Sink for OBS";
@@ -62,7 +122,6 @@
 						};
 					};
 				}
-
 				{
 					name = "libpipewire-module-loopback";
 					args = {
@@ -104,8 +163,4 @@
 			};
 		};
 	};
-
-	services.udev.extraRules = ''
-		ACTION=="add|change", KERNEL=="event[0-9]*", ATTRS{name}=="HDA Intel PCH Headphone", ENV{LIBINPUT_IGNORE_DEVICE}="1"
-	'';
 }

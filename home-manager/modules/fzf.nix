@@ -2,6 +2,8 @@
 	programs.fzf = {
 		enable = true;
 		enableBashIntegration = true;
+
+		historyWidget.command = "";
 	};
 
 	home.packages = with pkgs; [

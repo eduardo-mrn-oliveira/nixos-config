@@ -12,6 +12,8 @@
 			"image/avif" = "oculante.desktop";
 			"image/heic" = "oculante.desktop";
 			"image/vnd.microsoft.icon" = "oculante.desktop";
+			"image/x-tga" = "oculante.desktop";
+			"image/tga" = "oculante.desktop";
 
 			"video/mp4" = "mpv.desktop";
 			"video/x-matroska" = "mpv.desktop";
@@ -23,7 +25,7 @@
 			"video/x-ms-wmv" = "mpv.desktop";
 			"video/mpeg" = "mpv.desktop";
 
-			"application/pdf" = "sioyek.desktop";
+			"application/pdf" = "org.gnome.Evince.desktop";
 			"application/vnd.ms-publisher" = "dev.zed.Zed.desktop";
 		};
 	};

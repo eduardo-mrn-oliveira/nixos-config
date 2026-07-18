@@ -30,6 +30,7 @@ PanelWindow {
         source: Config.wallpaper.image ?? ""
 
         fillMode: Image.Stretch
+        // fillMode: Image.PreserveAspectCrop
     }
 
     VideoOutput {
@@ -37,6 +38,7 @@ PanelWindow {
         anchors.fill: parent
 
         fillMode: VideoOutput.Stretch
+        // fillMode: VideoOutput.PreserveAspectCrop
 
         opacity: 0
         visible: opacity > 0

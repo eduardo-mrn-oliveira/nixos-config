@@ -35,8 +35,16 @@
 		./modules/tty.nix
 		./modules/intel.nix
 		./modules/zero-tier.nix
-		./modules/network-simulators.nix
+
+		./modules/btop.nix
+
+		./modules/hibernation.nix
+
+		./modules/ydotool.nix
 	];
+
+	systemd.tpm2.enable = false;
+	boot.initrd.systemd.tpm2.enable = false;
 
 	environment.systemPackages = [pkgs.home-manager];
 

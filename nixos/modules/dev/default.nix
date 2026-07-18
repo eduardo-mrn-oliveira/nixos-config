@@ -7,6 +7,7 @@
 		./lua.nix
 		./node.nix
 		./python.nix
+		./rust.nix
 		./umka.nix
 		./zig.nix
 	];

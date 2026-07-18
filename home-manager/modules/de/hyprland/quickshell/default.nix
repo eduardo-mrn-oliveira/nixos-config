@@ -36,6 +36,12 @@
 		(name: config.xdg.configFile.${name}.source)
 		(builtins.attrNames templateConfigs);
 in {
+	# For some reason, GC is cleaning up the underlying package
+	# That results in Quickshell being recompiled
+	home.extraDependencies = [
+		quickshell.unwrapped
+	];
+
 	programs.quickshell = {
 		enable = true;
 		systemd.enable = true;

@@ -10,6 +10,11 @@
 			inherit pkgs;
 		};
 
+	nix-del =
+		import ./packages/nix-del.nix {
+			inherit pkgs;
+		};
+
 	sboard =
 		import ./packages/sboard.nix {
 			inherit pkgs;
@@ -36,11 +41,13 @@ in {
 		./modules/spotify.nix
 		./modules/mpd.nix
 
-		./modules/mpv.nix
+		./modules/mpv
 
 		./modules/default-apps.nix
 
 		./modules/direnv.nix
+
+		./modules/ghostty.nix
 	];
 
 	home = {
@@ -57,6 +64,7 @@ in {
 		playerctl
 		pavucontrol
 		all-ctl
+		nix-del
 		sboard
 	];
 

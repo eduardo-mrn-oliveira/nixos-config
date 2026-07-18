@@ -18,7 +18,10 @@ Singleton {
             return [];
         }
 
-        const offset = monitor.id * workspacesPerScreen;
+        // Temporary fix
+        // Reason: Lack of "per-screen" workspace keybind navigation
+        const offset = 0 * workspacesPerScreen;
+        // const offset = monitor.id * workspacesPerScreen;
 
         const workspaces = [];
 
@@ -41,6 +44,6 @@ Singleton {
     }
 
     function switchTo(id) {
-        Hyprland.dispatch("workspace " + id);
+        Hyprland.dispatch(`hl.dsp.focus({ workspace = ${id} })`);
     }
 }

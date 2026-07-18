@@ -4,11 +4,13 @@
 	inputs = {
 		nixpkgs.follows = "nixpkgs-unstable";
 
-		nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+		nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
 
-		nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+		nixpkgs-unstable.url = "github:nixos/nixpkgs/bb01c8c8fdd2ad82261964bf3aeb6bb3e6dcc12e";
 
 		nixpkgs-rolling.url = "github:nixos/nixpkgs/nixos-unstable";
+
+		nixpkgs-sys.url = "github:nixos/nixpkgs/nixos-unstable";
 
 		home-manager = {
 			url = "github:nix-community/home-manager";
@@ -31,12 +33,17 @@
 		};
 
 		hyprland = {
-			url = "github:hyprwm/Hyprland";
+			url = "github:hyprwm/Hyprland/v0.55.0";
 			# inputs.nixpkgs.follows = "nixpkgs";
 		};
 
 		hyprtasking = {
 			url = "github:eduardo-mrn-oliveira/hyprtasking";
+			inputs.hyprland.follows = "hyprland";
+		};
+
+		hy3 = {
+			url = "github:outfoxxed/hy3/hl0.55.0";
 			inputs.hyprland.follows = "hyprland";
 		};
 
@@ -52,6 +59,12 @@
 
 		direnv-instant = {
 			url = "github:Mic92/direnv-instant";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
+
+		rust-overlay = {
+			url = "github:oxalica/rust-overlay";
+			inputs.nixpkgs.follows = "nixpkgs";
 		};
 	};
 
@@ -61,6 +74,7 @@
 		nixpkgs-stable,
 		nixpkgs-unstable,
 		nixpkgs-rolling,
+		nixpkgs-sys,
 		home-manager,
 		...
 	} @ inputs: let
@@ -84,6 +98,9 @@
 		rolling =
 			nixpkgs-rolling.legacyPackages.${system};
 
+		sys =
+			nixpkgs-sys.legacyPackages.${system};
+
 		custom =
 			import ./nixpkgs-custom {
 				inherit pkgs;
@@ -105,7 +122,7 @@
 				inherit system;
 
 				specialArgs = {
-					inherit inputs system root stable unstable rolling custom stateVersion hostname user;
+					inherit inputs system root stable unstable rolling sys custom stateVersion hostname user;
 				};
 
 				modules = [
@@ -115,6 +132,7 @@
 			};
 
 		makeIso = {
+			# TODO: Can be merged into 'makeSystem" by using 'image.modules'
 			hostname,
 			stateVersion,
 		}:
@@ -122,7 +140,7 @@
 				inherit system;
 
 				specialArgs = {
-					inherit inputs system root stable unstable rolling custom stateVersion hostname user;
+					inherit inputs system root stable unstable rolling sys custom stateVersion hostname user;
 				};
 
 				modules = [
@@ -132,7 +150,7 @@
 
 					{
 						home-manager.extraSpecialArgs = {
-							inherit inputs system root stable unstable rolling custom homeStateVersion user;
+							inherit inputs system root stable unstable rolling sys custom homeStateVersion user;
 						};
 
 						home-manager.users.${user} = {
@@ -168,7 +186,7 @@
 				inherit pkgs;
 
 				extraSpecialArgs = {
-					inherit inputs system root stable unstable rolling custom homeStateVersion user;
+					inherit inputs system root stable unstable rolling sys custom homeStateVersion user;
 				};
 
 				modules = [
@@ -179,13 +197,15 @@
 
 		packages.${system} =
 			{
-				inherit pkgs stable unstable rolling custom;
+				inherit pkgs stable unstable rolling sys custom;
 			}
 			// (nixpkgs.lib.listToAttrs (
-					map (host: {
-							name = "${host.hostname}-ISO";
-							value = self.nixosConfigurations."${host.hostname}-ISO".config.system.build.isoImage;
-						})
+					nixpkgs.lib.concatMap (host: [
+							{
+								name = "${host.hostname}-ISO";
+								value = self.nixosConfigurations."${host.hostname}-ISO".config.system.build.isoImage;
+							}
+						])
 					hosts
 				));
 	};

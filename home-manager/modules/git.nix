@@ -4,7 +4,7 @@
 
 		settings = {
 			user = {
-				name = "Eduardo Mariano de Oliveira";
+				name = "Eduardo Oliveira";
 				email = "eduardo.mrn.oliveira@outlook.com";
 			};
 

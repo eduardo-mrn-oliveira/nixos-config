@@ -2,16 +2,24 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Networking
 
-// Ethernet:  WAN /  LAN
+// TODO: Add ethernet icons (  WAN /  LAN )
 
 RowLayout {
+    id: root
+
+    readonly property var connectedDevices: Networking.devices.values.filter(device => device.connected)
+
+    visible: connectedDevices.length > 0
+
+    spacing: 18
+
     Repeater {
-        model: Networking.devices
+        model: root.connectedDevices
 
         delegate: Text {
             required property var modelData
 
-            property var network: modelData.networks?.values[0]
+            property var network: modelData.networks?.values.find(network => network.connected)
             property string networkName: network?.name ?? "Unknown"
             property double networkSignalStrength: network?.signalStrength ?? 0
 
@@ -27,6 +35,8 @@ RowLayout {
 
                 return icons[iconGroup][level];
             }
+
+            visible: network !== undefined
 
             text: `${icon}  ${networkName} (${Math.round(networkSignalStrength * 100)}%)`
 

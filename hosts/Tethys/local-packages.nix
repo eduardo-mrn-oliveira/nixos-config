@@ -1,6 +1,7 @@
 {
 	pkgs,
 	custom,
+	rolling,
 	...
 }: {
 	nixpkgs.config.allowUnfree = true;
@@ -13,40 +14,49 @@
 		gimp
 		audacity
 		kdePackages.kdenlive
+		drawy
 
 		# Apps
 		discord
+		rolling.vesktop
 		libreoffice
 		obs-studio
 		mpv
-		oculante
+		rolling.oculante
 		spotify
-		sioyek
-		rustdesk
+		evince
+		rustdesk-flutter
 
 		# Code editors
-		custom.netdimas
 		custom.sql-developer
+		dbeaver-bin
 		gedit
+		bruno
+		bruno-cli
+		insomnia
 
 		# Games
 		prismlauncher
 		heroic
+		lutris
 		custom.geforce-infinity
 		pcsx2
+		dolphin-emu
 
 		# CLIs
-		yt-dlp
+		rolling.yt-dlp
 		ffmpeg-full
-		scrcpy
+		rolling.scrcpy
 		p7zip
 		ripgrep-all
 		ncdu
+		ngrok
+		git
 
 		# Other
 		qbittorrent
-		btop
 		gparted
+		appimage-run # Can become a part of a "Lutris" module
 
 		# Magic
 		libappindicator-gtk3

@@ -69,7 +69,7 @@
 			# Assemble the PS1 string.
 			local C1="\[\033[''${prompt_color}\]"
 			local C2="\[\033[''${git_color}\]"
-			local body="''${C1}[\u@\h:''${short_pwd}''${C2}''${git_branch}''${C1}]\$''${reset_color} "
+			local body="''${C1}[''${short_pwd}''${C2}''${git_branch}''${C1}]\$''${reset_color} "
 
 			# Set a different PS1 for terminal vs. Emacs shell.
 			if [ -n "$INSIDE_EMACS" ]; then

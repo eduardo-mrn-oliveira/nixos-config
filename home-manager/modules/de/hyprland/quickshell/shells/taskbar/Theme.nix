@@ -21,6 +21,8 @@ in ''
 
 		readonly property color accent: "#${colors.base0D}"
 		readonly property color urgent: "#${colors.base08}"
+		readonly property color warning: "#${colors.base0A}"
+		readonly property color success: "#${colors.base0B}"
 
 		readonly property string fontMonospace: "${fonts.monospace.name}"
 		readonly property string fontSansSerif: "${fonts.sansSerif.name}"

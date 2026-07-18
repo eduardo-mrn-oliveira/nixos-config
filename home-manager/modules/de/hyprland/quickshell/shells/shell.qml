@@ -1,8 +1,10 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
+import Quickshell.Wayland
 import "./taskbar"
 import "./wallpaper"
 
@@ -48,9 +50,9 @@ ShellRoot {
             root.wallpaper.visible = !root.wallpaper.visible;
 
             if (root.wallpaper.visible && Config.isAnimated) {
-                Video.play();
+                VideoManager.play();
             } else {
-                Video.pause();
+                VideoManager.pause();
             }
         }
 
@@ -62,8 +64,20 @@ ShellRoot {
 
         function playPause(): void {
             if (root.wallpaper.visible) {
-                Video.playPause();
+                VideoManager.playPause();
             }
+        }
+    }
+
+    property var activateLinux: QtObject {
+        property bool visible: false
+    }
+
+    IpcHandler {
+        target: "activateLinux"
+
+        function toggle(): void {
+            root.activateLinux.visible = !root.activateLinux.visible;
         }
     }
 
@@ -84,6 +98,48 @@ ShellRoot {
                 visible: root.taskbar.visible
 
                 screen: shell.modelData
+            }
+
+            // qmllint disable uncreatable-type
+            PanelWindow {
+                visible: root.activateLinux.visible
+
+                screen: shell.modelData
+
+                anchors {
+                    right: true
+                    bottom: true
+                }
+
+                // qmllint disable unresolved-type unqualified missing-property
+                margins {
+                    right: 50
+                    bottom: 20
+                }
+
+                implicitWidth: content.width
+                implicitHeight: content.height
+
+                color: "transparent"
+
+                mask: Region {}
+                WlrLayershell.layer: WlrLayer.Overlay
+
+                ColumnLayout {
+                    id: content
+
+                    Text {
+                        text: "Activate Linux"
+                        color: "#50ffffff"
+                        font.pointSize: 22
+                    }
+
+                    Text {
+                        text: "Go to Settings to activate Linux"
+                        color: "#50ffffff"
+                        font.pointSize: 14
+                    }
+                }
             }
         }
     }

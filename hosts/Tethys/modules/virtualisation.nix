@@ -45,9 +45,9 @@
 
 	# VirtualBox
 
-	users.extraGroups."vboxusers".members = [user];
+	# users.extraGroups."vboxusers".members = [user];
 
-	virtualisation.virtualbox.host.enable = true;
+	# virtualisation.virtualbox.host.enable = true;
 
 	# Docker
 
