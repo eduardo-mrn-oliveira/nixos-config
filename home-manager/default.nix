@@ -22,7 +22,6 @@
 in {
 	imports = [
 		./modules/de/hyprland
-		./modules/de/i3
 
 		./modules/theming
 
