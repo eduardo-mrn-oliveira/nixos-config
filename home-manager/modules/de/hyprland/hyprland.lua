@@ -1,8 +1,8 @@
 dofile(os.getenv("HOME") .. "/.config/hypr/plugins.lua")
 dofile(os.getenv("HOME") .. "/.config/hypr/colors.lua")
 
--- local monitor = "eDP-1"
-local monitor = "HDMI-A-1"
+local main_monitor = "eDP-1"
+-- local main_monitor = "HDMI-A-1"
 local root_dir = "/home/vanisher/.nixos-config"
 local mod = "SUPER"
 
@@ -11,9 +11,12 @@ local file_manager = "nautilus --new-window"
 local menu = 'pkill wofi || wofi --show drun --prompt ""'
 local editor = "zeditor"
 
+local WORKSPACES_PER_SCREEN <const> = 9
+
 hl.config({
 	misc = {
 		disable_hyprland_logo = true,
+		disable_splash_rendering = true,
 		enable_anr_dialog = false,
 		force_default_wallpaper = 0,
 		background_color = "rgb(000000)"
@@ -69,13 +72,42 @@ if hl.plugin.hy3 ~= nil then
 	})
 end
 
-hl.monitor({ output = "eDP-1", disabled = true })
-hl.monitor({ output = "HDMI-A-1", mode = "1920x1080@120", position = "0x0", scale = "1" })
+local MONITOR_MODES <const> = {
+	["eDP-1"] = {
+		"1368x768@60",
+		"1600x900@60",
+		"1920x1080@60"
+	},
+	["HDMI-A-1"] = {
+		"1368x768@120",
+		"1600x900@120",
+		"1920x1080@120"
+	},
+}
 
-for i = 1, 9 do
-	hl.workspace_rule({ workspace = tostring(i), monitor = monitor, default = true })
+if main_monitor == "eDP-1" then
+	hl.monitor({ output = "eDP-1", mode = MONITOR_MODES["eDP-1"][1], position = "0x0", scale = "1" })
+	hl.monitor({ output = "HDMI-A-1", disabled = true })
+else
+	hl.monitor({ output = "eDP-1", disabled = true })
+	hl.monitor({ output = "HDMI-A-1", mode = MONITOR_MODES["eDP-1"][2], position = "auto-up", scale = "1" })
 end
-hl.workspace_rule({ workspace = "10", monitor = "REMOTE", default = true })
+
+local monitors = hl.get_monitors()
+
+for _, monitor in pairs(monitors) do
+	local offset = monitor.id * WORKSPACES_PER_SCREEN
+
+	for i = 1, WORKSPACES_PER_SCREEN do
+		local workspace_id = offset + i
+
+		hl.workspace_rule({
+			workspace = tostring(workspace_id),
+			monitor = monitor.name,
+			default = true
+		})
+	end
+end
 
 hl.window_rule({ match = { workspace = "w[g1]" }, border_size = 0 })
 hl.window_rule({ match = { workspace = "w[t1]" }, border_size = 0 })
@@ -98,11 +130,17 @@ hl.define_submap("clean", function()
 end)
 
 hl.bind(mod .. " + F10",
-	function() hl.monitor({ output = "HDMI-A-1", mode = "1368x768@120", position = "0x0", scale = "1" }) end)
+	function()
+		hl.monitor({ output = main_monitor, mode = MONITOR_MODES[main_monitor][1], position = "auto-up", scale = "1" })
+	end)
 hl.bind(mod .. " + F11",
-	function() hl.monitor({ output = "HDMI-A-1", mode = "1600x900@120", position = "0x0", scale = "1" }) end)
+	function()
+		hl.monitor({ output = main_monitor, mode = MONITOR_MODES[main_monitor][2], position = "auto-up", scale = "1" })
+	end)
 hl.bind(mod .. " + F12",
-	function() hl.monitor({ output = "HDMI-A-1", mode = "1920x1080@120", position = "0x0", scale = "1" }) end)
+	function()
+		hl.monitor({ output = main_monitor, mode = MONITOR_MODES[main_monitor][3], position = "auto-up", scale = "1" })
+	end)
 
 hl.bind(mod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mod .. " + T", hl.dsp.exec_cmd(terminal))
@@ -157,17 +195,37 @@ local kp_keys = {
 	"KP_Next"
 }
 
-for i = 1, 9 do
-	hl.bind(mod .. " + " .. i, hl.dsp.focus({ workspace = tostring(i) }))
-	hl.bind(mod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = tostring(i), silent = true }))
+---@param workspace_id number
+local function switch_to_workspace(workspace_id)
+	local active_monitor = hl.get_active_monitor()
 
-	local kp_key = kp_keys[i]
-	hl.bind(mod .. " + " .. kp_key, hl.dsp.focus({ workspace = tostring(i) }))
-	hl.bind(mod .. " + SHIFT + " .. kp_key, hl.dsp.window.move({ workspace = tostring(i), silent = false }))
+	local active_monitor_id = active_monitor and active_monitor.id or 0
+
+	local target_id = active_monitor_id * WORKSPACES_PER_SCREEN + workspace_id
+
+	hl.dispatch(hl.dsp.focus({ workspace = tostring(target_id) }))
 end
 
-hl.bind(mod .. " + 0", hl.dsp.focus({ workspace = "10" }))
-hl.bind(mod .. " + SHIFT + 0", hl.dsp.window.move({ workspace = "10", silent = true }))
+---@param workspace_id number
+---@param silent boolean
+local function move_to_workspace(workspace_id, silent)
+	local active_monitor = hl.get_active_monitor()
+
+	local active_monitor_id = active_monitor and active_monitor.id or 0
+
+	local target_id = active_monitor_id * WORKSPACES_PER_SCREEN + workspace_id
+
+	hl.dispatch(hl.dsp.window.move({ workspace = tostring(target_id), silent }))
+end
+
+for i = 1, WORKSPACES_PER_SCREEN do
+	hl.bind(mod .. " + " .. i, function() switch_to_workspace(i) end)
+	hl.bind(mod .. " + SHIFT + " .. i, function() move_to_workspace(i, true) end)
+
+	local kp_key = kp_keys[i]
+	hl.bind(mod .. " + " .. kp_key, function() switch_to_workspace(i) end)
+	hl.bind(mod .. " + SHIFT + " .. kp_key, function() move_to_workspace(i, false) end)
+end
 
 hl.bind(mod .. " + A", hl.dsp.focus({ workspace = "-1" }))
 hl.bind(mod .. " + D", hl.dsp.focus({ workspace = "+1" }))

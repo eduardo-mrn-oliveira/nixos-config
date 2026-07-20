@@ -18,10 +18,7 @@ Singleton {
             return [];
         }
 
-        // Temporary fix
-        // Reason: Lack of "per-screen" workspace keybind navigation
-        const offset = 0 * workspacesPerScreen;
-        // const offset = monitor.id * workspacesPerScreen;
+        const offset = monitor.id * workspacesPerScreen;
 
         const workspaces = [];
 
