@@ -6,7 +6,11 @@
 	pkgs,
 	...
 }: let
+	hyprland =
+		inputs.hyprland.packages.${system}.hyprland;
+
 	hy3 = inputs.hy3.packages.${system}.hy3;
+	#
 	# hyprtasking =
 	# 	inputs.hyprtasking.packages.${system}.hyprtasking;
 in {
@@ -37,44 +41,44 @@ in {
 		portalPackage = null;
 	};
 
-	xdg.configFile."hypr/plugins.lua".text = ''
+	xdg.configFile."hypr/sys/plugins.lua".text = ''
 		hl.plugin.load("${hy3}/lib/libhy3.so")
 	'';
 	# hl.plugin.load("${hyprtasking}/lib/libhyprtasking.so")
 
-	xdg.configFile."hypr/colors.lua".text = ''
-		if hl.plugin.hy3 ~= nil then
-			hl.config({
-				plugin = {
-					hy3 = {
-						tabs = {
-							colors = {
-								active = "rgba(${config.lib.stylix.colors.base0D}40)",
-								active_border = "rgba(${config.lib.stylix.colors.base0D}ee)",
-								active_text = "rgba(${config.lib.stylix.colors.base05}ff)",
-								active_alt_monitor = "rgba(${config.lib.stylix.colors.base03}40)",
-								active_alt_monitor_border = "rgba(${config.lib.stylix.colors.base03}ee)",
-								active_alt_monitor_text = "rgba(${config.lib.stylix.colors.base05}ff)",
-								focused = "rgba(${config.lib.stylix.colors.base02}40)",
-								focused_border = "rgba(${config.lib.stylix.colors.base02}ee)",
-								focused_text = "rgba(${config.lib.stylix.colors.base05}ff)",
-								inactive = "rgba(${config.lib.stylix.colors.base01}20)",
-								inactive_border = "rgba(${config.lib.stylix.colors.base01}aa)",
-								inactive_text = "rgba(${config.lib.stylix.colors.base05}ff)",
-								urgent = "rgba(${config.lib.stylix.colors.base08}40)",
-								urgent_border = "rgba(${config.lib.stylix.colors.base08}ee)",
-								urgent_text = "rgba(${config.lib.stylix.colors.base05}ff)",
-								locked = "rgba(${config.lib.stylix.colors.base0A}40)",
-								locked_border = "rgba(${config.lib.stylix.colors.base0A}ee)",
-								locked_text = "rgba(${config.lib.stylix.colors.base05}ff)"
-							}
-						}
-					}
-				}
-			})
-		end
+	xdg.configFile."hypr/sys/colors.lua".text = ''
+		return {
+			base00 = "${config.lib.stylix.colors.base00}",
+			base01 = "${config.lib.stylix.colors.base01}",
+			base02 = "${config.lib.stylix.colors.base02}",
+			base03 = "${config.lib.stylix.colors.base03}",
+			base04 = "${config.lib.stylix.colors.base04}",
+			base05 = "${config.lib.stylix.colors.base05}",
+			base06 = "${config.lib.stylix.colors.base06}",
+			base07 = "${config.lib.stylix.colors.base07}",
+			base08 = "${config.lib.stylix.colors.base08}",
+			base09 = "${config.lib.stylix.colors.base09}",
+			base0A = "${config.lib.stylix.colors.base0A}",
+			base0B = "${config.lib.stylix.colors.base0B}",
+			base0C = "${config.lib.stylix.colors.base0C}",
+			base0D = "${config.lib.stylix.colors.base0D}",
+			base0E = "${config.lib.stylix.colors.base0E}",
+			base0F = "${config.lib.stylix.colors.base0F}",
+		}
 	'';
 
-	xdg.configFile."hypr/hyprland.lua".source =
-		config.lib.file.mkOutOfStoreSymlink "${root}/home-manager/modules/de/hyprland/hyprland.lua";
+	xdg.configFile."hypr/hyprland.lua".text = ''
+		local config_dir = "${config.xdg.configHome}/hypr"
+		package.path = package.path .. ";" .. config_dir .. "/config/?.lua;" .. config_dir .. "/?.lua;" .. config_dir .. "/?/init.lua"
+
+		require("sys.plugins")
+		require("sys.colors")
+
+		require("config")
+	'';
+
+	xdg.configFile."hypr/config".source =
+		config.lib.file.mkOutOfStoreSymlink "${root}/home-manager/modules/de/hyprland/config";
+
+	xdg.configFile."hypr/stubs".source = "${hyprland}/share/hypr/stubs";
 }

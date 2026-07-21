@@ -1,0 +1,10 @@
+{
+	"Lua": {
+		"workspace": {
+			"library": ["../stubs"]
+		},
+		"package": {
+			"path": ["?.lua", "../sys/?.lua"]
+		}
+	}
+}

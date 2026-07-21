@@ -2,63 +2,55 @@
 	pkgs,
 	config,
 	...
-}: let
-	wallpaper = {
-		source = {
-			image = ./wallpapers/white-eyes.jpg;
-			video = ./wallpapers/white-eyes.mp4;
-		};
-
-		settings = {
-			brightness = "-30";
-			contrast = "0";
-		};
-
-		filterHald =
-			pkgs.runCommand "filter-hald.png" {
-				nativeBuildInputs = [pkgs.imagemagick];
-			} ''
-				magick hald:8 \
-					-brightness-contrast ${wallpaper.settings.brightness},${wallpaper.settings.contrast} \
-					$out
-			'';
-
-		video =
-			pkgs.runCommand "background.mp4" {
-				nativeBuildInputs = [pkgs.ffmpeg-full];
-			} ''
-				ffmpeg -y -i "${wallpaper.source.video}" -i "${wallpaper.filterHald}" \
-					-filter_complex "[0:v][1:v]haldclut" \
-					-pix_fmt yuv420p \
-					-c:v libx264 \
-					-preset fast \
-					-crf 18 \
-					-an \
-					$out
-			'';
-
-		image =
-			pkgs.runCommand "background.png" {
-				nativeBuildInputs = [pkgs.imagemagick];
-			} ''
-				magick "${wallpaper.source.image}" \
-					-brightness-contrast ${wallpaper.settings.brightness},${wallpaper.settings.contrast} \
-					$out
-			'';
-	};
-in {
+}:
+# let
+# 	wallpaper = {
+# 		source = {
+# 			image = ./wallpapers/white-eyes.jpg;
+# 			video = ./wallpapers/white-eyes.mp4;
+# 		};
+# 		settings = {
+# 			brightness = "-30";
+# 			contrast = "0";
+# 		};
+# 		filterHald =
+# 			pkgs.runCommand "filter-hald.png" {
+# 				nativeBuildInputs = [pkgs.imagemagick];
+# 			} ''
+# 				magick hald:8 \
+# 					-brightness-contrast ${wallpaper.settings.brightness},${wallpaper.settings.contrast} \
+# 					$out
+# 			'';
+# 		video =
+# 			pkgs.runCommand "background.mp4" {
+# 				nativeBuildInputs = [pkgs.ffmpeg-full];
+# 			} ''
+# 				ffmpeg -y -i "${wallpaper.source.video}" -i "${wallpaper.filterHald}" \
+# 					-filter_complex "[0:v][1:v]haldclut" \
+# 					-pix_fmt yuv420p \
+# 					-c:v libx264 \
+# 					-preset fast \
+# 					-crf 18 \
+# 					-an \
+# 					$out
+# 			'';
+# 		image =
+# 			pkgs.runCommand "background.png" {
+# 				nativeBuildInputs = [pkgs.imagemagick];
+# 			} ''
+# 				magick "${wallpaper.source.image}" \
+# 					-brightness-contrast ${wallpaper.settings.brightness},${wallpaper.settings.contrast} \
+# 					$out
+# 			'';
+# 	};
+# in
+{
 	imports = [
 		./options.nix
 	];
 
-	# theming.wallpaper.image = ./wallpapers/reze.jpg;
-	# theming.wallpaper.video = ./wallpapers/reze.mp4;
-
 	theming.wallpaper.image = "${config.xdg.userDirs.pictures}/Wallpapers/phrolova-wind.png";
 	theming.wallpaper.video = "${config.xdg.userDirs.pictures}/Wallpapers/phrolova-wind.mp4";
-
-	# theming.wallpaper.image = wallpaper.image;
-	# theming.wallpaper.video = wallpaper.video;
 
 	home.packages = [pkgs.base16-schemes];
 

@@ -5,12 +5,7 @@
 	config,
 	rolling,
 	...
-}: let
-	hyprland =
-		inputs.hyprland.packages.${system}.hyprland;
-in {
-	xdg.configFile."zed/stubs/hyprland".source = "${hyprland}/share/hypr/stubs";
-
+}: {
 	programs.zed-editor = {
 		enable = true;
 
@@ -273,20 +268,6 @@ in {
 					"binary" = {
 						"path" = "${pkgs.lua-language-server}/bin/lua-language-server";
 						"ignore_system_version" = true;
-					};
-					"settings" = {
-						"Lua" = {
-							"workspace" = {
-								"library" = [
-									"${config.home.homeDirectory}/.config/zed/stubs/hyprland"
-								];
-							};
-							"diagnostics" = {
-								"globals" = [
-									"mp"
-								];
-							};
-						};
 					};
 				};
 			};
