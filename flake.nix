@@ -33,8 +33,7 @@
 		};
 
 		hyprland = {
-			url = "github:hyprwm/Hyprland/v0.55.0";
-			# inputs.nixpkgs.follows = "nixpkgs";
+			url = "github:hyprwm/Hyprland/v0.56.0";
 		};
 
 		hyprtasking = {
@@ -43,7 +42,7 @@
 		};
 
 		hy3 = {
-			url = "github:outfoxxed/hy3/hl0.55.0";
+			url = "github:outfoxxed/hy3/hl0.56.0.1";
 			inputs.hyprland.follows = "hyprland";
 		};
 
