@@ -47,6 +47,8 @@ in {
 		./modules/direnv.nix
 
 		./modules/ghostty.nix
+
+		./modules/poweralertd.nix
 	];
 
 	home = {
