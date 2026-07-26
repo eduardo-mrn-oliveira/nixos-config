@@ -6,34 +6,6 @@ hl.define_submap("clean", function()
 	hl.bind(settings.mod .. " + Insert", hl.dsp.submap("reset"))
 end)
 
-hl.bind(settings.mod .. " + F10",
-	function()
-		hl.monitor({
-			output = settings.main_monitor,
-			mode = settings.monitor_modes[settings.main_monitor][1],
-			position = "auto-up",
-			scale = "1",
-		})
-	end)
-hl.bind(settings.mod .. " + F11",
-	function()
-		hl.monitor({
-			output = settings.main_monitor,
-			mode = settings.monitor_modes[settings.main_monitor][2],
-			position = "auto-up",
-			scale = "1"
-		})
-	end)
-hl.bind(settings.mod .. " + F12",
-	function()
-		hl.monitor({
-			output = settings.main_monitor,
-			mode = settings.monitor_modes[settings.main_monitor][3],
-			position = "auto-up",
-			scale = "1"
-		})
-	end)
-
 hl.bind(settings.mod .. " + R", hl.dsp.exec_cmd(apps.launcher))
 hl.bind(settings.mod .. " + T", hl.dsp.exec_cmd(apps.terminal))
 hl.bind(settings.mod .. " + E", hl.dsp.exec_cmd(apps.file_manager))
@@ -48,11 +20,11 @@ if hl.plugin.hyprtasking ~= nil then
 	hl.bind(settings.mod .. " + KP_Enter", hl.dsp.exec_cmd("hyprctl dispatch hyprtasking:toggle cursor"))
 end
 
-hl.bind("ALT + Tab", hl.dsp.focus({ urgent_or_last = true }))
+hl.bind("ALT + Tab", hl.dsp.focus({ last = true }))
 
 hl.bind(settings.mod .. " + SHIFT + End", hl.dsp.exec_cmd("hyprshutdown --post-cmd 'poweroff'"))
 hl.bind(settings.mod .. " + SHIFT + Delete", hl.dsp.exec_cmd("hyprshutdown --post-cmd 'reboot'"))
-hl.bind(settings.mod .. " + SHIFT + E", hl.dsp.exec_cmd("uwsm stop"))
+hl.bind(settings.mod .. " + SHIFT + E", hl.dsp.exec_cmd("hyprshutdown --post-cmd 'uwsm stop'"))
 
 hl.bind(settings.mod .. " + P", hl.dsp.exec_cmd("hyprshot -zm region"))
 hl.bind(settings.mod .. " + ALT + P", hl.dsp.exec_cmd("hyprshot -zm region --cursor"))
@@ -143,10 +115,10 @@ hl.bind(settings.mod .. " + L", hl.dsp.focus({ monitor = "r" }))
 hl.bind(settings.mod .. " + I", hl.dsp.focus({ monitor = "u" }))
 hl.bind(settings.mod .. " + K", hl.dsp.focus({ monitor = "d" }))
 
-hl.bind(settings.mod .. " + CTRL + J", hl.dsp.window.move({ monitor = "l" }))
-hl.bind(settings.mod .. " + CTRL + L", hl.dsp.window.move({ monitor = "r" }))
-hl.bind(settings.mod .. " + CTRL + I", hl.dsp.window.move({ monitor = "u" }))
-hl.bind(settings.mod .. " + CTRL + K", hl.dsp.window.move({ monitor = "d" }))
+hl.bind(settings.mod .. " + SHIFT + J", hl.dsp.window.move({ monitor = "l" }))
+hl.bind(settings.mod .. " + SHIFT + L", hl.dsp.window.move({ monitor = "r" }))
+hl.bind(settings.mod .. " + SHIFT + I", hl.dsp.window.move({ monitor = "u" }))
+hl.bind(settings.mod .. " + SHIFT + K", hl.dsp.window.move({ monitor = "d" }))
 
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("all-ctl volume +"))
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("all-ctl volume -"))
@@ -162,6 +134,11 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("all-ctl media next"))
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("all-ctl media play-pause"))
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("all-ctl media play-pause"))
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("all-ctl media previous"))
+
+hl.bind(settings.mod .. " + XF86AudioNext", hl.dsp.exec_cmd("rmpc next"))
+hl.bind(settings.mod .. " + XF86AudioPause", hl.dsp.exec_cmd("rmpc togglepause"))
+hl.bind(settings.mod .. " + XF86AudioPlay", hl.dsp.exec_cmd("rmpc togglepause"))
+hl.bind(settings.mod .. " + XF86AudioPrev", hl.dsp.exec_cmd("rmpc prev"))
 
 hl.bind(settings.mod .. " + M", hl.dsp.exec_cmd("hyprctl hyprsunset identity"))
 hl.bind(settings.mod .. " + N", hl.dsp.exec_cmd("hyprctl hyprsunset temperature 2500K"))
