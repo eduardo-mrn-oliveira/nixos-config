@@ -94,6 +94,17 @@ Item {
         }
     }
 
+    Shortcut {
+        sequences: ["Meta+H"]
+        onActivated: {
+            if (container.opacity === 0.0) {
+                container.opacity = 1.0;
+            } else {
+                container.opacity = 0.0;
+            }
+        }
+    }
+
     Rectangle {
         id: container
 
