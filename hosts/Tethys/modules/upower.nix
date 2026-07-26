@@ -2,10 +2,10 @@
 	services.upower = {
 		enable = true;
 
-		percentageLow = 20;
-		percentageCritical = 10;
-		percentageAction = 5;
+		percentageLow = 30;
+		percentageCritical = 20;
+		percentageAction = 10;
 
-		criticalPowerAction = "PowerOff";
+		criticalPowerAction = "Hibernate";
 	};
 }
