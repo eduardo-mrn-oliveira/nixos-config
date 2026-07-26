@@ -7,6 +7,8 @@
 }: let
 	hyprland =
 		inputs.hyprland.packages.${system}.hyprland;
+
+	xdg-desktop-portal-hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 in {
 	programs.uwsm = {
 		enable = true;
@@ -18,6 +20,7 @@ in {
 		xwayland.enable = true;
 
 		package = hyprland;
+		portalPackage = xdg-desktop-portal-hyprland;
 	};
 
 	xdg.portal = {
