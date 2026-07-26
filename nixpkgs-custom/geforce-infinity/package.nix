@@ -3,7 +3,7 @@
 	pkgs,
 	appimageTools,
 }: let
-	version = "1.2.1";
+	version = "1.2.2";
 
 	desktopFile =
 		pkgs.fetchurl {
@@ -24,7 +24,7 @@ in
 		src =
 			pkgs.fetchurl {
 				url = "https://github.com/AstralVixen/GeForce-Infinity/releases/download/${version}/GeForceInfinity-linux-${version}-x86_64.AppImage";
-				hash = "sha256-y2ydfictA2ssrAQM6DX6G2gcAqHhG7J6yfxph4diXBQ=";
+				hash = "sha256-0B/5xeh3P0veLAeHAmkJPgg67+ckDlAJ54seWg1V2Cg=";
 			};
 
 		extraPkgs = pkgs:

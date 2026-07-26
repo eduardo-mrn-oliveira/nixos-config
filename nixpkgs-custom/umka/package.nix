@@ -5,13 +5,14 @@
 }:
 stdenv.mkDerivation rec {
 	pname = "umka";
-	version = "1.5.5";
+	version = "1.5.6";
 
 	src =
-		pkgs.fetchurl {
-			name = "umka-${version}.tar.gz";
-			url = "https://github.com/vtereshkov/umka-lang/archive/refs/tags/v${version}.tar.gz";
-			sha256 = "sha256-t2c6RF7i/70WHInLB2RS2OBMTYQrq/bFvKlj5St1rf0=";
+		pkgs.fetchFromGitHub {
+			owner = "vtereshkov";
+			repo = "umka-lang";
+			rev = "v${version}";
+			hash = "sha256-wEgybH1L69iOGuwctaeQSigB4+LeTEBtpPWeqR5aT68=";
 		};
 
 	makeFlags = ["PREFIX=${placeholder "out"}"];
