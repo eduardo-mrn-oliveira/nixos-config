@@ -41,6 +41,8 @@
 		./modules/hibernation.nix
 
 		./modules/ydotool.nix
+
+		./modules/sunshine.nix
 	];
 
 	systemd.tpm2.enable = false;
