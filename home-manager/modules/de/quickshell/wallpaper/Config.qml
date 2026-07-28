@@ -5,8 +5,6 @@ import Quickshell
 import Quickshell.Io
 
 FileView {
-    id: file
-
     path: Quickshell.env("YVANISHER_QS_WALLPAPER_CONFIG") ?? Qt.resolvedUrl("config.json")
 
     watchChanges: true

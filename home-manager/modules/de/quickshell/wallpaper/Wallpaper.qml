@@ -8,7 +8,7 @@ import Qs.yVanisher.Components
 
 // qmllint disable uncreatable-type
 PanelWindow {
-    id: window
+    id: root
 
     anchors {
         top: true
@@ -31,7 +31,7 @@ PanelWindow {
         anchors.fill: parent
 
         visible: WallpaperManager.isWallpaperEnabled
-        hasControlOverMedia: window.index === 0
+        hasControlOverMedia: root.index === 0
         mediaController: WallpaperManager.mediaController
         isAnimated: WallpaperManager.shouldPlayVideo
 

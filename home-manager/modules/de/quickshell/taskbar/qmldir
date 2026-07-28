@@ -1,4 +1,5 @@
 Taskbar Taskbar.qml
+singleton TaskbarManager TaskbarManager.qml
 
 ClockWidget ClockWidget.qml
 singleton Time Time.qml

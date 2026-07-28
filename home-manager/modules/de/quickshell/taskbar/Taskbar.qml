@@ -10,6 +10,8 @@ import "../config"
 PanelWindow {
     id: root
 
+    visible: TaskbarManager.isVisible
+
     implicitHeight: layout.implicitHeight
     color: Theme.values.backgroundPrimary
 
