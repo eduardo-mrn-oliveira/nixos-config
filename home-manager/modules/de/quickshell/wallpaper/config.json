@@ -1,0 +1,13 @@
+{
+	"staticSource": "/home/vanisher/Images/Wallpapers/phrolova-wind.png",
+	"staticFillMode": "Stretch",
+
+	"animatedSource": "/home/vanisher/Images/Wallpapers/phrolova-wind.mp4",
+	"animatedFillMode": "Stretch",
+
+	"startEnabled": true,
+	"startAnimated": false,
+
+	"isMuted": true,
+	"volume": 100
+}

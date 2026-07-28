@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Networking
 
+import "../config"
+
 RowLayout {
     id: root
 
@@ -54,11 +56,11 @@ RowLayout {
                 return `${icon}  ${networkName} (${Math.round(networkSignalStrength * 100)}%)`;
             }
 
-            color: Theme.textPrimary
+            color: Theme.values.textPrimary
 
             font {
-                family: Theme.fontMonospace
-                pixelSize: Theme.fontSize
+                family: Theme.values.fontMonospace
+                pixelSize: Theme.values.fontSize
             }
         }
     }

@@ -2,9 +2,11 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+
 import "./taskbar"
 import "./wallpaper"
 
@@ -39,36 +41,6 @@ ShellRoot {
         }
     }
 
-    property var wallpaper: QtObject {
-        property bool visible: true
-    }
-
-    IpcHandler {
-        target: "wallpaper"
-
-        function toggle(): void {
-            root.wallpaper.visible = !root.wallpaper.visible;
-
-            if (root.wallpaper.visible && Config.isAnimated) {
-                VideoManager.play();
-            } else {
-                VideoManager.pause();
-            }
-        }
-
-        function toggleAnimation(): void {
-            if (root.wallpaper.visible) {
-                Config.isAnimated = !Config.isAnimated;
-            }
-        }
-
-        function playPause(): void {
-            if (root.wallpaper.visible) {
-                VideoManager.playPause();
-            }
-        }
-    }
-
     property var activateLinux: QtObject {
         property bool visible: false
     }
@@ -86,12 +58,13 @@ ShellRoot {
 
         delegate: Scope {
             id: shell
+
+            required property var index
             required property var modelData
 
             Wallpaper {
-                visible: root.wallpaper.visible
-
-                screen: shell.modelData
+                index: shell.index
+                modelData: shell.modelData
             }
 
             Taskbar {

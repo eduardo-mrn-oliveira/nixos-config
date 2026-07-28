@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
 
+import "../config"
+
 Item {
     id: root
 
@@ -30,18 +32,18 @@ Item {
                 implicitWidth: label.implicitWidth + 24
                 implicitHeight: 38
 
-                color: hoverHandler.containsMouse ? Theme.highlight : "transparent"
+                color: hoverHandler.containsMouse ? Theme.values.highlight : "transparent"
 
                 Text {
                     id: label
                     anchors.centerIn: parent
                     text: button.modelData.name
 
-                    color: button.isActive ? Theme.textPrimary : Theme.textMuted
+                    color: button.isActive ? Theme.values.textPrimary : Theme.values.textMuted
 
                     font {
-                        family: Theme.fontMonospace
-                        pixelSize: Theme.fontSize
+                        family: Theme.values.fontMonospace
+                        pixelSize: Theme.values.fontSize
                         bold: true
                     }
                 }
@@ -54,7 +56,7 @@ Item {
                     }
 
                     height: button.bottomHighlightSize
-                    color: Theme.textPrimary
+                    color: Theme.values.textPrimary
 
                     visible: button.isFocused
                 }

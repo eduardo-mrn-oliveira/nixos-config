@@ -4,13 +4,14 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
+import "../config"
 
 // qmllint disable uncreatable-type
 PanelWindow {
     id: root
 
     implicitHeight: layout.implicitHeight
-    color: Theme.backgroundPrimary
+    color: Theme.values.backgroundPrimary
 
     WlrLayershell.namespace: "taskbar"
 
@@ -46,7 +47,7 @@ PanelWindow {
             BatteryWidget {}
 
             TrayWidget {
-                iconSize: Math.round(Theme.fontSize * 1.4)
+                iconSize: Math.round(Theme.values.fontSize * 1.4)
                 spacing: 8
             }
 

@@ -1,8 +1,10 @@
 import QtQuick
 import Quickshell.Services.UPower
 
+import "../config"
+
 Text {
-    color: Theme.textPrimary
+    color: Theme.values.textPrimary
 
     readonly property bool active: UPower.displayDevice.ready && UPower.displayDevice.isLaptopBattery
 
@@ -38,7 +40,7 @@ Text {
     text: icon + " " + percentage + "%"
 
     font {
-        family: Theme.fontMonospace
-        pixelSize: Theme.fontSize
+        family: Theme.values.fontMonospace
+        pixelSize: Theme.values.fontSize
     }
 }

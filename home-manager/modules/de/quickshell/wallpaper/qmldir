@@ -1,5 +1,4 @@
 Wallpaper Wallpaper.qml
+singleton WallpaperManager WallpaperManager.qml
 
 singleton Config Config.qml
-
-singleton VideoManager VideoManager.qml

@@ -22,6 +22,7 @@
 in {
 	imports = [
 		./modules/de/hyprland
+		./modules/de/quickshell
 
 		./modules/theming
 

@@ -5,10 +5,12 @@ import QtQuick.Layouts
 import QtQuick.Effects
 import Quickshell
 
+import "../config"
+
 Rectangle {
     id: root
 
-    color: Theme.backgroundSecondary
+    color: Theme.values.backgroundSecondary
 
     implicitHeight: content.implicitHeight + root.menu.padding.y * 2
     implicitWidth: content.implicitWidth + root.menu.padding.x * 2
@@ -175,7 +177,7 @@ Rectangle {
 
                     visible: !item.isSeparator
 
-                    color: item.isHighlighted ? Theme.highlight : "transparent"
+                    color: item.isHighlighted ? Theme.values.highlight : "transparent"
                     radius: root.item.radius
                 }
 
@@ -191,11 +193,11 @@ Rectangle {
                     bottomPadding: root.item.padding.y
 
                     text: item.icon + item.modelData.text
-                    color: Theme.textPrimary
+                    color: Theme.values.textPrimary
 
                     font {
-                        family: Theme.fontMonospace
-                        pixelSize: Theme.fontSize
+                        family: Theme.values.fontMonospace
+                        pixelSize: Theme.values.fontSize
                     }
                 }
 

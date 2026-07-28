@@ -1,8 +1,10 @@
 import QtQuick
 import Quickshell
 
+import "../config"
+
 Text {
-    color: Theme.textPrimary
+    color: Theme.values.textPrimary
 
     readonly property string icon: {
         if (Audio.isMuted) {
@@ -31,8 +33,8 @@ Text {
     text: icon + " " + value
 
     font {
-        family: Theme.fontMonospace
-        pixelSize: Theme.fontSize
+        family: Theme.values.fontMonospace
+        pixelSize: Theme.values.fontSize
     }
 
     MouseArea {

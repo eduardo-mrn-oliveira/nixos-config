@@ -15,8 +15,6 @@
 	# 	inputs.hyprtasking.packages.${system}.hyprtasking;
 in {
 	imports = [
-		./quickshell
-
 		./clipboard.nix
 
 		./wofi.nix
