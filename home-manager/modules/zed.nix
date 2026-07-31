@@ -1,8 +1,5 @@
 {
 	pkgs,
-	inputs,
-	system,
-	config,
 	rolling,
 	...
 }: {
@@ -10,6 +7,11 @@
 		enable = true;
 
 		package = rolling.zed-editor;
+
+		mutableUserDebug = false;
+		mutableUserKeymaps = false;
+		mutableUserSettings = false;
+		mutableUserTasks = false;
 
 		extensions = [
 			"angular"
@@ -75,6 +77,11 @@
 		];
 
 		userSettings = {
+			project_panel.dock = "left";
+			outline_panel.dock = "left";
+			collaboration_panel.dock = "left";
+			git_panel.dock = "left";
+			"disable_ai" = true;
 			"auto_update_extensions" = {
 				"angular" = false;
 				"basher" = false;
@@ -108,6 +115,8 @@
 			"buffer_font_family" = "FiraCode Nerd Font";
 			"ui_font_size" = 18;
 			"buffer_font_size" = 16;
+			"default_open_behavior" = "new_window";
+			"cli_default_open_behavior" = "new_window";
 			inlay_hints = {
 				enabled = false;
 				# show_type_hints = true;
@@ -239,17 +248,7 @@
 				};
 				"qml" = {
 					"binary" = {
-						"arguments" = [
-							"-E"
-							"-I"
-							"${config.programs.quickshell.package}/lib/qt-6/qml"
-							"-I"
-							"${pkgs.qt6.qtdeclarative}/lib/qt-6/qml"
-							"-I"
-							"${pkgs.qt6.qtmultimedia}/lib/qt-6/qml"
-							"-I"
-							"${inputs.qs-qml-types.packages.${system}.qs-qml-types}/lib/qt-6/qml"
-						];
+						"arguments" = ["-E"];
 					};
 				};
 				"nil" = {

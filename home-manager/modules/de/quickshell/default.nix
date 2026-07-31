@@ -47,9 +47,10 @@
 			nativeBuildInputs = [pkgs.makeWrapper];
 			postBuild = ''
 				wrapProgram $out/bin/quickshell \
-				    --set YVANISHER_QS_THEME "${themeFile}" \
-				    --set TZDIR "${pkgs.tzdata}/share/zoneinfo"
+					--set YVANISHER_QS_THEME "${themeFile}" \
+					--set TZDIR "${pkgs.tzdata}/share/zoneinfo"
 			'';
+			meta = quickshell.meta;
 		};
 in {
 	# For some reason, GC is cleaning up the underlying package

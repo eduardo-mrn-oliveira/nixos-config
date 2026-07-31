@@ -27,6 +27,7 @@ PanelWindow {
 
     color: "black"
 
+    // TODO: Allow playing video URLs
     AnimatedBackground {
         anchors.fill: parent
 
