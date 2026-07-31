@@ -52,6 +52,7 @@
 		ncdu
 		ngrok
 		git
+		tree
 
 		# Other
 		qbittorrent

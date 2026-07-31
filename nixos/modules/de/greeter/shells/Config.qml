@@ -5,8 +5,6 @@ import Quickshell
 import Quickshell.Io
 
 FileView {
-    id: file
-
     path: Quickshell.env("YGREETER_CONFIG") ?? ""
 
     watchChanges: true

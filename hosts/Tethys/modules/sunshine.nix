@@ -1,6 +1,7 @@
 {
 	services.sunshine = {
 		enable = true;
+		autoStart = false;
 		settings = {
 			output_name = "REMOTE";
 			system_tray = "disabled";

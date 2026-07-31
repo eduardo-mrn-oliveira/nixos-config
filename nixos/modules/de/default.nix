@@ -20,7 +20,7 @@
 			startAnimated = false;
 
 			isMuted = true;
-			volume = 30;
+			volume = 10;
 		};
 
 		terminalSessions = [
