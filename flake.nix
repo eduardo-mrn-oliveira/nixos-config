@@ -47,7 +47,7 @@
 		};
 
 		quickshell = {
-			url = "github:quickshell-mirror/quickshell";
+			url = "github:eduardo-moliveira/quickshell";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
