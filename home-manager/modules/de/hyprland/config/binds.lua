@@ -1,10 +1,24 @@
 local apps = require("apps")
 local settings = require("settings")
 
-hl.bind(settings.mod .. " + Insert", hl.dsp.submap("clean"))
-hl.define_submap("clean", function()
-	hl.bind(settings.mod .. " + Insert", hl.dsp.submap("reset"))
+---@param submap? string
+local function switch_to_submap(submap)
+	local actual = submap or "reset"
+	local display = actual == "reset" and "Default" or actual
+
+	hl.dispatch(hl.dsp.submap(actual))
+
+	hl.notification.create({
+		text = "Submap: " .. display,
+		font_size = 18,
+		timeout = 2000,
+	})
+end
+
+hl.define_submap("Clean", function()
+	hl.bind(settings.mod .. " + Insert", function() switch_to_submap() end)
 end)
+hl.bind(settings.mod .. " + Insert", function() switch_to_submap("Clean") end)
 
 hl.bind(settings.mod .. " + R", hl.dsp.exec_cmd(apps.launcher))
 hl.bind(settings.mod .. " + T", hl.dsp.exec_cmd(apps.terminal))
@@ -22,9 +36,9 @@ end
 
 hl.bind("ALT + Tab", hl.dsp.focus({ last = true }))
 
-hl.bind(settings.mod .. " + SHIFT + End", hl.dsp.exec_cmd("hyprshutdown --post-cmd 'poweroff'"))
-hl.bind(settings.mod .. " + SHIFT + Delete", hl.dsp.exec_cmd("hyprshutdown --post-cmd 'reboot'"))
-hl.bind(settings.mod .. " + SHIFT + E", hl.dsp.exec_cmd("hyprshutdown --post-cmd 'uwsm stop'"))
+hl.bind(settings.mod .. " + SHIFT + End", hl.dsp.exec_cmd("hyprshutdown -t 'Shutting down...' --post-cmd 'poweroff'"))
+hl.bind(settings.mod .. " + SHIFT + Delete", hl.dsp.exec_cmd("hyprshutdown -t 'Rebooting...' --post-cmd 'reboot'"))
+hl.bind(settings.mod .. " + SHIFT + E", hl.dsp.exec_cmd("hyprshutdown -t 'Logging out...' --post-cmd 'uwsm stop'"))
 
 hl.bind(settings.mod .. " + P", hl.dsp.exec_cmd("hyprshot -zm region"))
 hl.bind(settings.mod .. " + ALT + P", hl.dsp.exec_cmd("hyprshot -zm region --cursor"))
@@ -33,9 +47,22 @@ hl.bind(settings.mod .. " + SHIFT + P", hl.dsp.exec_cmd("pkill -9 hyprpicker"))
 hl.bind(settings.mod .. " + F5", hl.dsp.exec_cmd("hyprctl reload"))
 
 hl.bind(settings.mod .. " + W", hl.dsp.exec_cmd("qs ipc call taskbar toggle"))
-hl.bind(settings.mod .. " + SHIFT + space", hl.dsp.exec_cmd("qs ipc call wallpaper toggle"))
-hl.bind(settings.mod .. " + space", hl.dsp.exec_cmd("qs ipc call wallpaper toggleAnimation"))
-hl.bind(settings.mod .. " + ALT + space", hl.dsp.exec_cmd("qs ipc call wallpaper playPause"))
+
+hl.define_submap("Wallpaper", function()
+	hl.bind("J", hl.dsp.exec_cmd("qs ipc call wallpaper toggle"))
+	hl.bind("K", hl.dsp.exec_cmd("qs ipc call wallpaper toggleAnimation"))
+	hl.bind("L", hl.dsp.exec_cmd("qs ipc call wallpaper playPause"))
+
+	hl.bind("M", hl.dsp.exec_cmd("qs ipc call wallpaper muteUnmute"))
+	hl.bind("comma", hl.dsp.exec_cmd("qs ipc call wallpaper volumeDown"))
+	hl.bind("period", hl.dsp.exec_cmd("qs ipc call wallpaper volumeUp"))
+
+	hl.bind(settings.mod .. " + space", function() switch_to_submap() end)
+	hl.bind("escape", function() switch_to_submap() end)
+end)
+
+hl.bind(settings.mod .. " + space", function() switch_to_submap("Wallpaper") end)
+
 hl.bind(settings.mod .. " + SHIFT + W", hl.dsp.exec_cmd("systemctl --user restart quickshell"))
 
 hl.bind(settings.mod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
