@@ -36,9 +36,15 @@ end
 
 hl.bind("ALT + Tab", hl.dsp.focus({ last = true }))
 
-hl.bind(settings.mod .. " + SHIFT + End", hl.dsp.exec_cmd("hyprshutdown -t 'Shutting down...' --post-cmd 'poweroff'"))
-hl.bind(settings.mod .. " + SHIFT + Delete", hl.dsp.exec_cmd("hyprshutdown -t 'Rebooting...' --post-cmd 'reboot'"))
-hl.bind(settings.mod .. " + SHIFT + E", hl.dsp.exec_cmd("hyprshutdown -t 'Logging out...' --post-cmd 'uwsm stop'"))
+hl.bind(settings.mod .. " + SHIFT + End", hl.dsp.exec_cmd(
+	[[qs ipc call prompt confirm "Shut down?" "uwsm app -- hyprshutdown -t 'Shutting down...' --post-cmd 'poweroff'" || hyprshutdown -t 'Shutting down...' --post-cmd 'poweroff']]
+))
+hl.bind(settings.mod .. " + SHIFT + Delete", hl.dsp.exec_cmd(
+	[[qs ipc call prompt confirm "Reboot?" "uwsm app -- hyprshutdown -t 'Rebooting...' --post-cmd 'reboot'" || hyprshutdown -t 'Rebooting...' --post-cmd 'reboot']]
+))
+hl.bind(settings.mod .. " + SHIFT + E", hl.dsp.exec_cmd(
+	[[qs ipc call prompt confirm "Log out?" "uwsm app -- hyprshutdown -t 'Logging out...' --post-cmd 'uwsm stop'" || hyprshutdown -t 'Logging out...' --post-cmd 'uwsm stop']]
+))
 
 hl.bind(settings.mod .. " + P", hl.dsp.exec_cmd("hyprshot -zm region"))
 hl.bind(settings.mod .. " + ALT + P", hl.dsp.exec_cmd("hyprshot -zm region --cursor"))
@@ -123,6 +129,10 @@ hl.bind(settings.mod .. " + A", hl.dsp.focus({ workspace = "-1" }))
 hl.bind(settings.mod .. " + D", hl.dsp.focus({ workspace = "+1" }))
 hl.bind(settings.mod .. " + SHIFT + A", hl.dsp.window.move({ workspace = "-1" }))
 hl.bind(settings.mod .. " + SHIFT + D", hl.dsp.window.move({ workspace = "+1" }))
+
+hl.bind(settings.mod .. "+ 0", hl.dsp.exec_cmd(
+	[[qs ipc call prompt ask 'Switch to workspace:' 'hyprctl eval "hl.dispatch(hl.dsp.focus({ workspace = \"$1\" }))"']]
+))
 
 if hl.plugin.hy3 ~= nil then
 	hl.bind(settings.mod .. " + G", hl.plugin.hy3.make_group("tab"))

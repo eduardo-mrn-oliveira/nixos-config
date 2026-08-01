@@ -1,3 +1,6 @@
+-- .luarc.json isn't being loaded for some reason
+---@diagnostic disable: undefined-global
+
 mp.add_key_binding("h", "copy_pixel_coords", function()
 	local mouse_pos = mp.get_property_native("mouse-pos")
 	local osd_dims = mp.get_property_native("osd-dimensions")

@@ -1,0 +1,4 @@
+AskPrompt AskPrompt.qml
+ConfirmPrompt ConfirmPrompt.qml
+
+singleton PromptManager PromptManager.qml

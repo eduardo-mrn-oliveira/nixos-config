@@ -9,7 +9,14 @@ import "./wallpaper"
 
 import "./activate-linux"
 
+import "./prompts"
+
 ShellRoot {
+    // Load singletons
+    Component.onCompleted: {
+        PromptManager;
+    }
+
     Instantiator {
         model: Quickshell.screens
 
