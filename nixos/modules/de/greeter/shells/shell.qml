@@ -54,11 +54,6 @@ ShellRoot {
         loops: MediaPlayer.Infinite
     }
 
-    Shortcuts {
-        target: root
-        mediaController: mediaController
-    }
-
     Variants {
         model: Quickshell.screens
 
@@ -85,6 +80,11 @@ ShellRoot {
 
                     screen: scope.modelData
                     color: "black"
+
+                    Shortcuts {
+                        target: root
+                        mediaController: mediaController
+                    }
 
                     AnimatedBackground {
                         anchors.fill: parent
