@@ -21,7 +21,7 @@ Singleton {
 
             root.currentMessage = message;
             root.currentCallback = callback;
-            promptLoader.sourceComponent = askComponent;
+            promptLoader.component = askComponent;
             promptLoader.active = true;
         }
 
@@ -32,7 +32,7 @@ Singleton {
 
             root.currentMessage = message;
             root.currentCallback = callback;
-            promptLoader.sourceComponent = confirmComponent;
+            promptLoader.component = confirmComponent;
             promptLoader.active = true;
         }
     }
@@ -55,15 +55,14 @@ Singleton {
         }
     }
 
-    Loader {
+    LazyLoader {
         id: promptLoader
-
         active: false
     }
 
     function closePrompt(): void {
         promptLoader.active = false;
-        promptLoader.sourceComponent = undefined;
+        promptLoader.component = undefined;
         root.currentMessage = "";
         root.currentCallback = "";
     }

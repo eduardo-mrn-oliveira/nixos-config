@@ -1,45 +1,57 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 
 import Quickshell
 import Quickshell.Wayland
 
-// qmllint disable uncreatable-type
-PanelWindow {
-    visible: ActivateLinuxManager.isVisible
+LazyLoader {
+    id: root
 
-    anchors {
-        right: true
-        bottom: true
-    }
+    active: ActivateLinuxManager.isVisible
 
-    // qmllint disable unresolved-type unqualified missing-property
-    margins {
-        right: 20
-        bottom: 20
-    }
+    required property var screen
 
-    implicitWidth: content.width
-    implicitHeight: content.height
+    component: Component {
+        // qmllint disable uncreatable-type
+        PanelWindow {
+            screen: root.screen
 
-    color: "transparent"
+            anchors {
+                right: true
+                bottom: true
+            }
 
-    mask: Region {}
-    WlrLayershell.layer: WlrLayer.Overlay
+            // qmllint disable unresolved-type unqualified missing-property
+            margins {
+                right: 20
+                bottom: 20
+            }
 
-    ColumnLayout {
-        id: content
+            implicitWidth: content.width
+            implicitHeight: content.height
 
-        Text {
-            text: "Activate Linux"
-            color: "#50ffffff"
-            font.pointSize: 22
-        }
+            color: "transparent"
 
-        Text {
-            text: "Go to Settings to activate Linux"
-            color: "#50ffffff"
-            font.pointSize: 14
+            mask: Region {}
+            WlrLayershell.layer: WlrLayer.Overlay
+
+            ColumnLayout {
+                id: content
+
+                Text {
+                    text: "Activate Linux"
+                    color: "#50ffffff"
+                    font.pointSize: 22
+                }
+
+                Text {
+                    text: "Go to Settings to activate Linux"
+                    color: "#50ffffff"
+                    font.pointSize: 14
+                }
+            }
         }
     }
 }

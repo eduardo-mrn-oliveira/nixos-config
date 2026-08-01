@@ -2,6 +2,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+
+import Quickshell
 import Quickshell.Services.SystemTray
 
 Item {
@@ -81,10 +83,10 @@ Item {
         }
     }
 
-    Loader {
+    LazyLoader {
         active: root.activeAnchor !== null
 
-        sourceComponent: Component {
+        component: Component {
             TrayMenu {
                 anchorItem: root.activeAnchor
 

@@ -54,57 +54,60 @@ ShellRoot {
         loops: MediaPlayer.Infinite
     }
 
-    Instantiator {
+    Shortcuts {
+        target: root
+        mediaController: mediaController
+    }
+
+    Variants {
         model: Quickshell.screens
 
-        // qmllint disable uncreatable-type
-        PanelWindow {
-            id: window
+        delegate: Component {
+            Scope {
+                id: scope
 
-            anchors {
-                top: true
-                bottom: true
-                left: true
-                right: true
-            }
+                required property var modelData
+                readonly property int index: Quickshell.screens.indexOf(modelData)
 
-            WlrLayershell.layer: WlrLayer.Overlay
-            focusable: window.index === 0
+                // qmllint disable uncreatable-type
+                PanelWindow {
+                    id: window
 
-            Shortcuts {
-                target: root
-                mediaController: mediaController
-            }
+                    anchors {
+                        top: true
+                        bottom: true
+                        left: true
+                        right: true
+                    }
 
-            required property int index
-            required property var modelData
+                    WlrLayershell.layer: WlrLayer.Overlay
+                    focusable: scope.index === 0
 
-            screen: modelData
+                    screen: scope.modelData
+                    color: "black"
 
-            color: "black"
+                    AnimatedBackground {
+                        anchors.fill: parent
+                        visible: root.isWallpaperEnabled
 
-            AnimatedBackground {
-                anchors.fill: parent
-                visible: root.isWallpaperEnabled
+                        hasControlOverMedia: scope.index === 0
+                        mediaController: mediaController
+                        isAnimated: root.shouldPlayVideo
 
-                hasControlOverMedia: window.index === 0
+                        staticSource: Config.values.staticSource ? `file://${Config.values.staticSource}` : ""
+                        staticFillMode: root.fillModeLookup[Config.values.staticFillMode]?.static ?? Image.PreserveAspectFit
 
-                mediaController: mediaController
-                isAnimated: root.shouldPlayVideo
+                        animatedFillMode: root.fillModeLookup[Config.values.animatedFillMode]?.animated ?? VideoOutput.PreserveAspectFit
+                    }
 
-                staticSource: Config.values.staticSource ? `file://${Config.values.staticSource}` : ""
+                    Loader {
+                        active: scope.index === 0
+                        asynchronous: true
 
-                staticFillMode: root.fillModeLookup[Config.values.staticFillMode]?.static ?? Image.PreserveAspectFit
-                animatedFillMode: root.fillModeLookup[Config.values.animatedFillMode]?.animated ?? VideoOutput.PreserveAspectFit
-            }
-
-            // Greeter
-
-            Loader {
-                active: window.index === 0
-                anchors.fill: parent
-
-                source: "GreeterSurface.qml"
+                        anchors.fill: parent
+                        source: "GreeterSurface.qml"
+                    }
+                }
             }
         }
     }

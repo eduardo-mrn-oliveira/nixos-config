@@ -17,26 +17,28 @@ ShellRoot {
         PromptManager;
     }
 
-    Instantiator {
+    Variants {
         model: Quickshell.screens
 
-        delegate: Scope {
-            id: shell
+        delegate: Component {
+            Scope {
+                id: shell
 
-            required property var index
-            required property var modelData
+                required property var modelData
+                readonly property int index: Quickshell.screens.indexOf(modelData)
 
-            Wallpaper {
-                index: shell.index
-                modelData: shell.modelData
-            }
+                Wallpaper {
+                    index: shell.index
+                    modelData: shell.modelData
+                }
 
-            Taskbar {
-                screen: shell.modelData
-            }
+                Taskbar {
+                    screen: shell.modelData
+                }
 
-            ActivateLinux {
-                screen: shell.modelData
+                ActivateLinux {
+                    screen: shell.modelData
+                }
             }
         }
     }
