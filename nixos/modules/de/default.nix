@@ -10,10 +10,10 @@
 		enable = true;
 
 		settings = {
-			staticSource = "/etc/yGreeter/wallpapers/galbrena-rover.png";
+			staticSource = "/etc/yGreeter/wallpapers/phrolova-flower.png";
 			staticFillMode = "Stretch";
 
-			animatedSource = "/etc/yGreeter/wallpapers/galbrena-rover.mp4";
+			animatedSource = "/etc/yGreeter/wallpapers/phrolova-flower.mp4";
 			animatedFillMode = "Stretch";
 
 			startEnabled = true;
