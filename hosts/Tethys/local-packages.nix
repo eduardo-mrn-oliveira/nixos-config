@@ -28,7 +28,6 @@
 		rustdesk-flutter
 
 		# Code editors
-		custom.sql-developer
 		dbeaver-bin
 		gedit
 		bruno
