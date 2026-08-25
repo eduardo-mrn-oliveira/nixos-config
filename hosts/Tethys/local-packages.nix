@@ -61,5 +61,8 @@
 
 		# Magic
 		libappindicator-gtk3
+
+		# Theme
+		papirus-icon-theme # Should be moved to a module
 	];
 }
