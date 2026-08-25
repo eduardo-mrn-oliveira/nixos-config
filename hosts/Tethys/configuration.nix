@@ -43,6 +43,8 @@
 		./modules/ydotool.nix
 
 		./modules/sunshine.nix
+
+		./modules/mediamtx.nix
 	];
 
 	systemd.tpm2.enable = false;
