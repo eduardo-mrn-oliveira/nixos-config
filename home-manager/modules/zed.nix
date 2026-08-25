@@ -34,6 +34,7 @@
 			"qml"
 			"scss"
 			"sql"
+			"xml"
 			"zig"
 		];
 
@@ -72,6 +73,9 @@
 			# Web
 			prettier
 
+			# XML
+			xmlstarlet
+
 			# Other
 			package-version-server
 		];
@@ -103,6 +107,7 @@
 				"qml" = false;
 				"scss" = false;
 				"sql" = false;
+				"xml" = false;
 				"zig" = false;
 			};
 			"base_keymap" = "VSCode";
@@ -233,6 +238,21 @@
 						};
 					};
 				};
+				"XML" = {
+					"formatter" = {
+						"external" = {
+							"command" = "xml";
+							"arguments" = ["fo" "--indent-tab" "-"];
+						};
+					};
+				};
+				"QML" = {
+					"formatter" = {
+						"external" = {
+							"command" = "qmlformat";
+						};
+					};
+				};
 			};
 			"tab_size" = 4;
 			"hard_tabs" = true;
@@ -309,6 +329,9 @@
 		+ "AllowShortCaseLabelsOnASingleLine: false\n"
 		+ "AllowShortLoopsOnASingleLine: true\n"
 		+ "\n"
+		+ "PointerAlignment: Left\n"
+		+ "ReferenceAlignment: Pointer\n"
+		+ "\n"
 		+ "AlignAfterOpenBracket: BlockIndent\n"
 		+ "\n"
 		+ "FixNamespaceComments: false\n"
@@ -321,4 +344,9 @@
 		+ "}\n";
 
 	home.file.".config/rustfmt/rustfmt.toml".text = "hard_tabs = true\n";
+
+	home.file.".qmlformat.ini".text =
+		"[General]\n"
+		+ "UseTabs=true\n"
+		+ "IndentWidth=4\n";
 }
