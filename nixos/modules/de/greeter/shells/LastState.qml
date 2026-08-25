@@ -5,19 +5,19 @@ import Quickshell
 import Quickshell.Io
 
 FileView {
-    path: Quickshell.env("YGREETER_STATE") ?? ""
+	path: Quickshell.env("YGREETER_STATE") ?? ""
 
-    onAdapterUpdated: writeAdapter()
+	onAdapterUpdated: writeAdapter()
 
-    blockLoading: true
+	blockLoading: true
 
-    property alias values: json
+	property alias values: json
 
-    // qmllint disable unresolved-type
-    JsonAdapter {
-        id: json
+	// qmllint disable unresolved-type
+	JsonAdapter {
+		id: json
 
-        property string lastUsername: ""
-        property string lastSession: ""
-    }
+		property string lastUsername: ""
+		property string lastSession: ""
+	}
 }

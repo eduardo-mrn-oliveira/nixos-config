@@ -3,11 +3,11 @@ import QtQuick
 import "../config"
 
 Text {
-    text: Time.time
-    color: Theme.values.textPrimary
+	text: Time.time
+	color: Theme.values.textPrimary
 
-    font {
-        family: Theme.values.fontMonospace
-        pixelSize: Theme.values.fontSize
-    }
+	font {
+		family: Theme.values.fontMonospace
+		pixelSize: Theme.values.fontSize
+	}
 }

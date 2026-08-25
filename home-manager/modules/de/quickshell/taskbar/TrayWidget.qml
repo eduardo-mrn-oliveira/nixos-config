@@ -7,96 +7,96 @@ import Quickshell
 import Quickshell.Services.SystemTray
 
 Item {
-    id: root
+	id: root
 
-    visible: SystemTray.items.values.length > 0
+	visible: SystemTray.items.values.length > 0
 
-    implicitWidth: content.implicitWidth
-    implicitHeight: content.implicitHeight
+	implicitWidth: content.implicitWidth
+	implicitHeight: content.implicitHeight
 
-    required property int iconSize
+	required property int iconSize
 
-    property alias spacing: content.spacing
+	property alias spacing: content.spacing
 
-    property Item activeAnchor: null
-    property var activeMenuData: null
+	property Item activeAnchor: null
+	property var activeMenuData: null
 
-    RowLayout {
-        id: content
+	RowLayout {
+		id: content
 
-        anchors.fill: parent
+		anchors.fill: parent
 
-        Repeater {
-            model: SystemTray.items
+		Repeater {
+			model: SystemTray.items
 
-            delegate: Item {
-                id: item
+			delegate: Item {
+				id: item
 
-                Layout.preferredHeight: root.iconSize
-                Layout.preferredWidth: root.iconSize
+				Layout.preferredHeight: root.iconSize
+				Layout.preferredWidth: root.iconSize
 
-                required property var modelData
+				required property var modelData
 
-                Image {
-                    anchors.fill: parent
+				Image {
+					anchors.fill: parent
 
-                    fillMode: Image.PreserveAspectFit
+					fillMode: Image.PreserveAspectFit
 
-                    smooth: true
-                    mipmap: true
+					smooth: true
+					mipmap: true
 
-                    source: item.modelData.icon
-                }
+					source: item.modelData.icon
+				}
 
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
+				MouseArea {
+					anchors.fill: parent
+					acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
 
-                    onClicked: mouse => {
-                        if (mouse.button === Qt.LeftButton && item.modelData.activate) {
-                            root.activeAnchor = null;
+					onClicked: mouse => {
+						if (mouse.button === Qt.LeftButton && item.modelData.activate) {
+							root.activeAnchor = null;
 
-                            item.modelData.activate();
-                        } else if (mouse.button === Qt.RightButton && item.modelData.hasMenu) {
-                            if (root.activeAnchor === item) {
-                                root.activeAnchor = null;
-                                root.activeMenuData = null;
-                            } else {
-                                root.activeMenuData = item.modelData;
-                                root.activeAnchor = item;
-                            }
-                        } else if (mouse.button === Qt.MiddleButton && item.modelData.secondaryActivate) {
-                            root.activeAnchor = null;
+							item.modelData.activate();
+						} else if (mouse.button === Qt.RightButton && item.modelData.hasMenu) {
+							if (root.activeAnchor === item) {
+								root.activeAnchor = null;
+								root.activeMenuData = null;
+							} else {
+								root.activeMenuData = item.modelData;
+								root.activeAnchor = item;
+							}
+						} else if (mouse.button === Qt.MiddleButton && item.modelData.secondaryActivate) {
+							root.activeAnchor = null;
 
-                            item.modelData.secondaryActivate();
-                        }
-                    }
+							item.modelData.secondaryActivate();
+						}
+					}
 
-                    onWheel: wheel => {
-                        if (item.modelData.scroll) {
-                            item.modelData.scroll(wheel.angleDelta.y, false);
-                            item.modelData.scroll(wheel.angleDelta.x, true);
-                        }
-                    }
-                }
-            }
-        }
-    }
+					onWheel: wheel => {
+						if (item.modelData.scroll) {
+							item.modelData.scroll(wheel.angleDelta.y, false);
+							item.modelData.scroll(wheel.angleDelta.x, true);
+						}
+					}
+				}
+			}
+		}
+	}
 
-    LazyLoader {
-        active: root.activeAnchor !== null
+	LazyLoader {
+		active: root.activeAnchor !== null
 
-        component: Component {
-            TrayMenu {
-                anchorItem: root.activeAnchor
+		component: Component {
+			TrayMenu {
+				anchorItem: root.activeAnchor
 
-                qsMenuHandle: root.activeMenuData.menu
+				qsMenuHandle: root.activeMenuData.menu
 
-                onRequestClose: {
-                    root.activeAnchor = null;
-                    root.activeMenuData = null;
-                }
-            }
-        }
-    }
+				onRequestClose: {
+					root.activeAnchor = null;
+					root.activeMenuData = null;
+				}
+			}
+		}
+	}
 }

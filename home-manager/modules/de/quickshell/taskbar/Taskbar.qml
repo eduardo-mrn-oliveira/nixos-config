@@ -8,56 +8,56 @@ import "../config"
 
 // qmllint disable uncreatable-type
 PanelWindow {
-    id: root
+	id: root
 
-    visible: TaskbarManager.isVisible
+	visible: TaskbarManager.isVisible
 
-    implicitHeight: layout.implicitHeight
-    color: Theme.values.backgroundPrimary
+	implicitHeight: layout.implicitHeight
+	color: Theme.values.backgroundPrimary
 
-    WlrLayershell.namespace: "taskbar"
+	WlrLayershell.namespace: "taskbar"
 
-    anchors {
-        left: true
-        right: true
-        bottom: true
-    }
+	anchors {
+		left: true
+		right: true
+		bottom: true
+	}
 
-    RowLayout {
-        id: layout
+	RowLayout {
+		id: layout
 
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
+		anchors {
+			left: parent.left
+			right: parent.right
+		}
 
-        WorkspacesWidget {
-            screen: root.screen
-        }
+		WorkspacesWidget {
+			screen: root.screen
+		}
 
-        Item {
-            Layout.fillWidth: true
-        }
+		Item {
+			Layout.fillWidth: true
+		}
 
-        RowLayout {
-            spacing: 18
+		RowLayout {
+			spacing: 18
 
-            NetworkWidget {}
+			NetworkWidget {}
 
-            AudioWidget {}
+			AudioWidget {}
 
-            BatteryWidget {}
+			BatteryWidget {}
 
-            TrayWidget {
-                iconSize: Math.round(Theme.values.fontSize * 1.4)
-                spacing: 8
-            }
+			TrayWidget {
+				iconSize: Math.round(Theme.values.fontSize * 1.4)
+				spacing: 8
+			}
 
-            ClockWidget {}
-        }
+			ClockWidget {}
+		}
 
-        Item {
-            implicitWidth: 4
-        }
-    }
+		Item {
+			implicitWidth: 4
+		}
+	}
 }

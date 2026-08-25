@@ -10,155 +10,155 @@ import "../config"
 
 // qmllint disable uncreatable-type
 PanelWindow {
-    id: root
+	id: root
 
-    anchors {
-        top: true
-        bottom: true
-        left: true
-        right: true
-    }
+	anchors {
+		top: true
+		bottom: true
+		left: true
+		right: true
+	}
 
-    color: "transparent"
+	color: "transparent"
 
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
+	WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
 
-    required property string message
-    required property string callbackCommand
+	required property string message
+	required property string callbackCommand
 
-    Rectangle {
-        anchors.fill: parent
+	Rectangle {
+		anchors.fill: parent
 
-        color: Qt.rgba(0, 0, 0, 0.6)
+		color: Qt.rgba(0, 0, 0, 0.6)
 
-        MouseArea {
-            anchors.fill: parent
+		MouseArea {
+			anchors.fill: parent
 
-            onClicked: PromptManager.closePrompt()
-        }
-    }
+			onClicked: PromptManager.closePrompt()
+		}
+	}
 
-    Rectangle {
-        id: surface
+	Rectangle {
+		id: surface
 
-        width: Math.max(320, Math.min(layout.implicitWidth + 40, 640))
-        height: layout.implicitHeight + 40
-        anchors.centerIn: parent
+		width: Math.max(320, Math.min(layout.implicitWidth + 40, 640))
+		height: layout.implicitHeight + 40
+		anchors.centerIn: parent
 
-        radius: 12
+		radius: 12
 
-        color: Theme.values.backgroundPrimary
-        border.color: Theme.values.textMuted
-        border.width: 1
+		color: Theme.values.backgroundPrimary
+		border.color: Theme.values.textMuted
+		border.width: 1
 
-        RectangularShadow {
-            anchors.fill: parent
-            z: -1
+		RectangularShadow {
+			anchors.fill: parent
+			z: -1
 
-            radius: parent.radius
-            spread: 1
-            color: "#80000000"
+			radius: parent.radius
+			spread: 1
+			color: "#80000000"
 
-            offset: Qt.vector2d(4, 8)
-        }
+			offset: Qt.vector2d(4, 8)
+		}
 
-        ColumnLayout {
-            id: layout
+		ColumnLayout {
+			id: layout
 
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-                margins: 20
-            }
+			anchors {
+				top: parent.top
+				left: parent.left
+				right: parent.right
+				margins: 20
+			}
 
-            spacing: 20
+			spacing: 20
 
-            Text {
-                Layout.fillWidth: true
-                Layout.maximumWidth: 600
+			Text {
+				Layout.fillWidth: true
+				Layout.maximumWidth: 600
 
-                text: root.message
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
+				text: root.message
+				horizontalAlignment: Text.AlignHCenter
+				wrapMode: Text.WordWrap
 
-                color: Theme.values.textPrimary
+				color: Theme.values.textPrimary
 
-                font.family: Theme.values.fontMonospace
-                font.pixelSize: Theme.values.fontSize
-            }
+				font.family: Theme.values.fontMonospace
+				font.pixelSize: Theme.values.fontSize
+			}
 
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: 12
+			RowLayout {
+				Layout.fillWidth: true
+				spacing: 12
 
-                Button {
-                    id: confirmButton
+				Button {
+					id: confirmButton
 
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: Theme.values.fontSize * 2.5
+					Layout.fillWidth: true
+					Layout.preferredHeight: Theme.values.fontSize * 2.5
 
-                    text: "Confirm"
-                    activeFocusOnTab: true
+					text: "Confirm"
+					activeFocusOnTab: true
 
-                    KeyNavigation.right: cancelButton
-                    Keys.onEscapePressed: PromptManager.closePrompt()
-                    Keys.onReturnPressed: clicked()
-                    Keys.onEnterPressed: clicked()
+					KeyNavigation.right: cancelButton
+					Keys.onEscapePressed: PromptManager.closePrompt()
+					Keys.onReturnPressed: clicked()
+					Keys.onEnterPressed: clicked()
 
-                    background: Item {}
+					background: Item {}
 
-                    contentItem: Text {
-                        text: "( " + confirmButton.text + " )"
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
+					contentItem: Text {
+						text: "( " + confirmButton.text + " )"
+						horizontalAlignment: Text.AlignHCenter
+						verticalAlignment: Text.AlignVCenter
 
-                        color: confirmButton.activeFocus || confirmButton.hovered ? Theme.values.textPrimary : Theme.values.textMuted
+						color: confirmButton.activeFocus || confirmButton.hovered ? Theme.values.textPrimary : Theme.values.textMuted
 
-                        font.family: Theme.values.fontMonospace
-                        font.pixelSize: Theme.values.fontSize
-                    }
+						font.family: Theme.values.fontMonospace
+						font.pixelSize: Theme.values.fontSize
+					}
 
-                    Component.onCompleted: forceActiveFocus()
+					Component.onCompleted: forceActiveFocus()
 
-                    onClicked: {
-                        if (root.callbackCommand !== "") {
-                            Quickshell.execDetached(["sh", "-c", root.callbackCommand]);
-                        }
-                        PromptManager.closePrompt();
-                    }
-                }
+					onClicked: {
+						if (root.callbackCommand !== "") {
+							Quickshell.execDetached(["sh", "-c", root.callbackCommand]);
+						}
+						PromptManager.closePrompt();
+					}
+				}
 
-                Button {
-                    id: cancelButton
+				Button {
+					id: cancelButton
 
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: Theme.values.fontSize * 2.5
+					Layout.fillWidth: true
+					Layout.preferredHeight: Theme.values.fontSize * 2.5
 
-                    text: "Cancel"
-                    activeFocusOnTab: true
+					text: "Cancel"
+					activeFocusOnTab: true
 
-                    KeyNavigation.left: confirmButton
-                    Keys.onEscapePressed: PromptManager.closePrompt()
-                    Keys.onReturnPressed: clicked()
-                    Keys.onEnterPressed: clicked()
+					KeyNavigation.left: confirmButton
+					Keys.onEscapePressed: PromptManager.closePrompt()
+					Keys.onReturnPressed: clicked()
+					Keys.onEnterPressed: clicked()
 
-                    background: Item {}
+					background: Item {}
 
-                    contentItem: Text {
-                        text: "( " + cancelButton.text + " )"
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
+					contentItem: Text {
+						text: "( " + cancelButton.text + " )"
+						horizontalAlignment: Text.AlignHCenter
+						verticalAlignment: Text.AlignVCenter
 
-                        color: cancelButton.activeFocus || cancelButton.hovered ? Theme.values.textPrimary : Theme.values.textMuted
+						color: cancelButton.activeFocus || cancelButton.hovered ? Theme.values.textPrimary : Theme.values.textMuted
 
-                        font.family: Theme.values.fontMonospace
-                        font.pixelSize: Theme.values.fontSize
-                    }
+						font.family: Theme.values.fontMonospace
+						font.pixelSize: Theme.values.fontSize
+					}
 
-                    onClicked: PromptManager.closePrompt()
-                }
-            }
-        }
-    }
+					onClicked: PromptManager.closePrompt()
+				}
+			}
+		}
+	}
 }

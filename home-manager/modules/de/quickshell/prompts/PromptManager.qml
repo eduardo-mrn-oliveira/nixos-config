@@ -6,64 +6,64 @@ import Quickshell
 import Quickshell.Io
 
 Singleton {
-    id: root
+	id: root
 
-    property string currentMessage: ""
-    property string currentCallback: ""
+	property string currentMessage: ""
+	property string currentCallback: ""
 
-    IpcHandler {
-        target: "prompt"
+	IpcHandler {
+		target: "prompt"
 
-        function ask(message: string, callback: string): void {
-            if (promptLoader.active) {
-                return;
-            }
+		function ask(message: string, callback: string): void {
+			if (promptLoader.active) {
+				return;
+			}
 
-            root.currentMessage = message;
-            root.currentCallback = callback;
-            promptLoader.component = askComponent;
-            promptLoader.active = true;
-        }
+			root.currentMessage = message;
+			root.currentCallback = callback;
+			promptLoader.component = askComponent;
+			promptLoader.active = true;
+		}
 
-        function confirm(message: string, callback: string): void {
-            if (promptLoader.active) {
-                return;
-            }
+		function confirm(message: string, callback: string): void {
+			if (promptLoader.active) {
+				return;
+			}
 
-            root.currentMessage = message;
-            root.currentCallback = callback;
-            promptLoader.component = confirmComponent;
-            promptLoader.active = true;
-        }
-    }
+			root.currentMessage = message;
+			root.currentCallback = callback;
+			promptLoader.component = confirmComponent;
+			promptLoader.active = true;
+		}
+	}
 
-    Component {
-        id: askComponent
+	Component {
+		id: askComponent
 
-        AskPrompt {
-            message: root.currentMessage
-            callbackCommand: root.currentCallback
-        }
-    }
+		AskPrompt {
+			message: root.currentMessage
+			callbackCommand: root.currentCallback
+		}
+	}
 
-    Component {
-        id: confirmComponent
+	Component {
+		id: confirmComponent
 
-        ConfirmPrompt {
-            message: root.currentMessage
-            callbackCommand: root.currentCallback
-        }
-    }
+		ConfirmPrompt {
+			message: root.currentMessage
+			callbackCommand: root.currentCallback
+		}
+	}
 
-    LazyLoader {
-        id: promptLoader
-        active: false
-    }
+	LazyLoader {
+		id: promptLoader
+		active: false
+	}
 
-    function closePrompt(): void {
-        promptLoader.active = false;
-        promptLoader.component = undefined;
-        root.currentMessage = "";
-        root.currentCallback = "";
-    }
+	function closePrompt(): void {
+		promptLoader.active = false;
+		promptLoader.component = undefined;
+		root.currentMessage = "";
+		root.currentCallback = "";
+	}
 }

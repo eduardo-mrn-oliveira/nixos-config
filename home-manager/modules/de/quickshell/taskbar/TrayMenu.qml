@@ -5,84 +5,84 @@ import Quickshell
 
 // qmllint disable uncreatable-type
 PanelWindow {
-    id: root
+	id: root
 
-    anchors {
-        left: true
-        right: true
-        top: true
-        bottom: true
-    }
+	anchors {
+		left: true
+		right: true
+		top: true
+		bottom: true
+	}
 
-    color: "transparent"
+	color: "transparent"
 
-    required property Item anchorItem
+	required property Item anchorItem
 
-    required property QsMenuHandle qsMenuHandle
+	required property QsMenuHandle qsMenuHandle
 
-    readonly property var item: QtObject {
-        readonly property int radius: 8
-        readonly property int separator: 8
+	readonly property var item: QtObject {
+		readonly property int radius: 8
+		readonly property int separator: 8
 
-        readonly property QtObject padding: QtObject {
-            readonly property int x: 12
-            readonly property int y: 4
-        }
-    }
+		readonly property QtObject padding: QtObject {
+			readonly property int x: 12
+			readonly property int y: 4
+		}
+	}
 
-    readonly property var menu: QtObject {
-        readonly property int gaps: 4
-        readonly property int radius: 8
-        readonly property int spacing: 2
-        readonly property int preferedDirection: Direction.Left
+	readonly property var menu: QtObject {
+		readonly property int gaps: 4
+		readonly property int radius: 8
+		readonly property int spacing: 2
+		readonly property int preferedDirection: Direction.Left
 
-        readonly property QtObject padding: QtObject {
-            readonly property int x: 4
-            readonly property int y: 8
-        }
-    }
+		readonly property QtObject padding: QtObject {
+			readonly property int x: 4
+			readonly property int y: 8
+		}
+	}
 
-    signal requestClose
+	signal requestClose
 
-    MouseArea {
-        anchors.fill: parent
-        acceptedButtons: Qt.LeftButton
+	MouseArea {
+		anchors.fill: parent
+		acceptedButtons: Qt.LeftButton
 
-        onClicked: root.requestClose()
-    }
+		onClicked: root.requestClose()
+	}
 
-    Item {
-        id: backdrop
-        anchors.fill: parent
-    }
+	Item {
+		id: backdrop
+		anchors.fill: parent
+	}
 
-    TrayMenuView {
-        backdrop: backdrop
+	TrayMenuView {
+		backdrop: backdrop
 
-        // TODO: Bottom direction
+		// TODO: Bottom direction
 
-        x: {
-            if (!root.anchorItem || !backdrop) {
-                return 0;
-            }
+		x: {
+			if (!root.anchorItem || !backdrop) {
+				return 0;
+			}
 
-            const globalPoint = root.anchorItem.mapToGlobal(0, 0);
+			const globalPoint = root.anchorItem.mapToGlobal(0, 0);
 
-            const localPoint = backdrop.mapFromGlobal(globalPoint);
+			const localPoint = backdrop.mapFromGlobal(globalPoint);
 
-            return localPoint.x + (root.anchorItem.width - width) / 2;
-        }
+			return localPoint.x + (root.anchorItem.width - width) / 2;
+		}
 
-        y: backdrop.height - (height + menu.gaps)
+		y: backdrop.height - (height + menu.gaps)
 
-        depth: 0
-        visible: height > menu.padding.y * 2
+		depth: 0
+		visible: height > menu.padding.y * 2
 
-        qsMenuHandle: root.qsMenuHandle
+		qsMenuHandle: root.qsMenuHandle
 
-        item: root.item
-        menu: root.menu
+		item: root.item
+		menu: root.menu
 
-        onRequestClose: root.requestClose()
-    }
+		onRequestClose: root.requestClose()
+	}
 }

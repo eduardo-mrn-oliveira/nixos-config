@@ -8,37 +8,39 @@ import Qs.yVanisher.Components
 
 // qmllint disable uncreatable-type
 PanelWindow {
-    id: root
+	id: root
 
-    anchors {
-        top: true
-        bottom: true
-        left: true
-        right: true
-    }
+	anchors {
+		top: true
+		bottom: true
+		left: true
+		right: true
+	}
 
-    WlrLayershell.layer: WlrLayer.Background
-    focusable: false
+	WlrLayershell.layer: WlrLayer.Background
+	focusable: false
 
-    required property int index
-    required property var modelData
+	required property int index
+	required property var modelData
 
-    screen: modelData
+	screen: modelData
 
-    color: "black"
+	color: "black"
 
-    // TODO: Allow playing video URLs
-    AnimatedBackground {
-        anchors.fill: parent
+	// TODO: Improve performance with "updatesEnabled"
 
-        visible: WallpaperManager.isWallpaperEnabled
-        hasControlOverMedia: root.index === 0
-        mediaController: WallpaperManager.mediaController
-        isAnimated: WallpaperManager.shouldPlayVideo
+	// TODO: Allow playing video URLs
+	AnimatedBackground {
+		anchors.fill: parent
 
-        staticSource: Config.values.staticSource ? `file://${Config.values.staticSource}` : ""
-        staticFillMode: WallpaperManager.fillModeLookup[Config.values.staticFillMode]?.static ?? Image.PreserveAspectFit
+		visible: WallpaperManager.isWallpaperEnabled
+		hasControlOverMedia: root.index === 0
+		mediaController: WallpaperManager.mediaController
+		isAnimated: WallpaperManager.shouldPlayVideo
 
-        animatedFillMode: WallpaperManager.fillModeLookup[Config.values.animatedFillMode]?.animated ?? VideoOutput.PreserveAspectFit
-    }
+		staticSource: Config.values.staticSource ? `file://${Config.values.staticSource}` : ""
+		staticFillMode: WallpaperManager.fillModeLookup[Config.values.staticFillMode]?.static ?? Image.PreserveAspectFit
+
+		animatedFillMode: WallpaperManager.fillModeLookup[Config.values.animatedFillMode]?.animated ?? VideoOutput.PreserveAspectFit
+	}
 }

@@ -1,10 +1,10 @@
 import QtQuick
 
 QtObject {
-    enum Type {
-        Up,
-        Down,
-        Left,
-        Right
-    }
+	enum Type {
+		Up,
+		Down,
+		Left,
+		Right
+	}
 }

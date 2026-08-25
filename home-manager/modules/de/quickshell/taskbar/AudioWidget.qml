@@ -4,61 +4,61 @@ import Quickshell
 import "../config"
 
 Text {
-    color: Theme.values.textPrimary
+	color: Theme.values.textPrimary
 
-    readonly property string icon: {
-        if (Audio.isMuted) {
-            return "";
-        }
+	readonly property string icon: {
+		if (Audio.isMuted) {
+			return "";
+		}
 
-        if (Audio.volume <= 50) {
-            return "";
-        }
+		if (Audio.volume <= 50) {
+			return "";
+		}
 
-        return " ";
-    }
+		return " ";
+	}
 
-    readonly property string value: {
-        if (isNaN(Audio.volume)) {
-            return "?";
-        }
+	readonly property string value: {
+		if (isNaN(Audio.volume)) {
+			return "?";
+		}
 
-        if (Audio.isMuted) {
-            return "—";
-        }
+		if (Audio.isMuted) {
+			return "—";
+		}
 
-        return Math.round(Audio.volume) + "%";
-    }
+		return Math.round(Audio.volume) + "%";
+	}
 
-    text: icon + " " + value
+	text: icon + " " + value
 
-    font {
-        family: Theme.values.fontMonospace
-        pixelSize: Theme.values.fontSize
-    }
+	font {
+		family: Theme.values.fontMonospace
+		pixelSize: Theme.values.fontSize
+	}
 
-    MouseArea {
-        anchors.fill: parent
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
+	MouseArea {
+		anchors.fill: parent
+		acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-        cursorShape: Qt.PointingHandCursor
+		cursorShape: Qt.PointingHandCursor
 
-        onClicked: mouse => {
-            if (mouse.button === Qt.LeftButton) {
-                Quickshell.execDetached(["pavucontrol"]);
-            } else if (mouse.button === Qt.RightButton) {
-                Audio.isMuted ? Audio.unmute() : Audio.mute();
-            }
-        }
+		onClicked: mouse => {
+			if (mouse.button === Qt.LeftButton) {
+				Quickshell.execDetached(["pavucontrol"]);
+			} else if (mouse.button === Qt.RightButton) {
+				Audio.isMuted ? Audio.unmute() : Audio.mute();
+			}
+		}
 
-        onWheel: wheel => {
-            const amount = 5;
+		onWheel: wheel => {
+			const amount = 5;
 
-            if (wheel.angleDelta.y < 0) {
-                Audio.decreaseBy(amount);
-            } else if (wheel.angleDelta.y > 0) {
-                Audio.increaseBy(amount);
-            }
-        }
-    }
+			if (wheel.angleDelta.y < 0) {
+				Audio.decreaseBy(amount);
+			} else if (wheel.angleDelta.y > 0) {
+				Audio.increaseBy(amount);
+			}
+		}
+	}
 }

@@ -7,51 +7,51 @@ import Quickshell
 import Quickshell.Wayland
 
 LazyLoader {
-    id: root
+	id: root
 
-    active: ActivateLinuxManager.isVisible
+	active: ActivateLinuxManager.isVisible
 
-    required property var screen
+	required property var screen
 
-    component: Component {
-        // qmllint disable uncreatable-type
-        PanelWindow {
-            screen: root.screen
+	component: Component {
+		// qmllint disable uncreatable-type
+		PanelWindow {
+			screen: root.screen
 
-            anchors {
-                right: true
-                bottom: true
-            }
+			anchors {
+				right: true
+				bottom: true
+			}
 
-            // qmllint disable unresolved-type unqualified missing-property
-            margins {
-                right: 20
-                bottom: 20
-            }
+			// qmllint disable unresolved-type unqualified missing-property
+			margins {
+				right: 20
+				bottom: 20
+			}
 
-            implicitWidth: content.width
-            implicitHeight: content.height
+			implicitWidth: content.width
+			implicitHeight: content.height
 
-            color: "transparent"
+			color: "transparent"
 
-            mask: Region {}
-            WlrLayershell.layer: WlrLayer.Overlay
+			mask: Region {}
+			WlrLayershell.layer: WlrLayer.Overlay
 
-            ColumnLayout {
-                id: content
+			ColumnLayout {
+				id: content
 
-                Text {
-                    text: "Activate Linux"
-                    color: "#50ffffff"
-                    font.pointSize: 22
-                }
+				Text {
+					text: "Activate Linux"
+					color: "#50ffffff"
+					font.pointSize: 22
+				}
 
-                Text {
-                    text: "Go to Settings to activate Linux"
-                    color: "#50ffffff"
-                    font.pointSize: 14
-                }
-            }
-        }
-    }
+				Text {
+					text: "Go to Settings to activate Linux"
+					color: "#50ffffff"
+					font.pointSize: 14
+				}
+			}
+		}
+	}
 }

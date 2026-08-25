@@ -6,15 +6,15 @@ import Quickshell
 import Quickshell.Io
 
 Singleton {
-    id: root
+	id: root
 
-    property bool isVisible: false
+	property bool isVisible: false
 
-    IpcHandler {
-        target: "activateLinux"
+	IpcHandler {
+		target: "activateLinux"
 
-        function toggle(): void {
-            root.isVisible = !root.isVisible;
-        }
-    }
+		function toggle(): void {
+			root.isVisible = !root.isVisible;
+		}
+	}
 }

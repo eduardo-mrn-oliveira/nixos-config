@@ -2,73 +2,73 @@ import QtQuick
 import QtQuick.Layouts
 
 FocusScope {
-    id: root
+	id: root
 
-    property alias value: input.text
+	property alias value: input.text
 
-    property alias readOnly: input.readOnly
+	property alias readOnly: input.readOnly
 
-    property int minLength: 16
+	property int minLength: 16
 
-    readonly property color textColor: input.color
-    readonly property var font: input.font
+	readonly property color textColor: input.color
+	readonly property var font: input.font
 
-    readonly property alias minimumWidth: input.minimumWidth
-    property alias preferredWidth: input.preferredWidth
+	readonly property alias minimumWidth: input.minimumWidth
+	property alias preferredWidth: input.preferredWidth
 
-    Layout.alignment: Qt.AlignHCenter
-    implicitWidth: layout.implicitWidth
-    implicitHeight: layout.implicitHeight
+	Layout.alignment: Qt.AlignHCenter
+	implicitWidth: layout.implicitWidth
+	implicitHeight: layout.implicitHeight
 
-    RowLayout {
-        id: layout
+	RowLayout {
+		id: layout
 
-        anchors.fill: parent
+		anchors.fill: parent
 
-        Layout.alignment: Qt.AlignHCenter
-        spacing: 0
+		Layout.alignment: Qt.AlignHCenter
+		spacing: 0
 
-        Text {
-            text: "[ "
-            color: input.color
-            font: input.font
-        }
+		Text {
+			text: "[ "
+			color: input.color
+			font: input.font
+		}
 
-        TextInput {
-            id: input
+		TextInput {
+			id: input
 
-            focus: true
+			focus: true
 
-            clip: true
+			clip: true
 
-            text: ""
-            echoMode: TextInput.Password
+			text: ""
+			echoMode: TextInput.Password
 
-            // passwordCharacter: '*'
+			// passwordCharacter: '*'
 
-            color: root.activeFocus ? Theme.values.textPrimary : Theme.values.textMuted
+			color: root.activeFocus ? Theme.values.textPrimary : Theme.values.textMuted
 
-            font {
-                family: Theme.values.fontMonospace
-                pixelSize: Theme.values.fontSize
-            }
+			font {
+				family: Theme.values.fontMonospace
+				pixelSize: Theme.values.fontSize
+			}
 
-            FontMetrics {
-                id: fontMetrics
-                font: input.font
-            }
+			FontMetrics {
+				id: fontMetrics
+				font: input.font
+			}
 
-            readonly property int minimumWidth: fontMetrics.averageCharacterWidth * root.minLength
-            property int preferredWidth: 0
+			readonly property int minimumWidth: fontMetrics.averageCharacterWidth * root.minLength
+			property int preferredWidth: 0
 
-            Layout.minimumWidth: minimumWidth
-            Layout.preferredWidth: preferredWidth
-        }
+			Layout.minimumWidth: minimumWidth
+			Layout.preferredWidth: preferredWidth
+		}
 
-        Text {
-            text: " ]"
-            color: input.color
-            font: input.font
-        }
-    }
+		Text {
+			text: " ]"
+			color: input.color
+			font: input.font
+		}
+	}
 }
