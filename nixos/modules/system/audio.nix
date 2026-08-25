@@ -77,7 +77,7 @@
 									type = "ladspa";
 									name = "rnnoise";
 									plugin = "librnnoise_ladspa";
-									label = "noise_suppressor_mono";
+									label = "noise_suppressor_stereo";
 									control = {
 										"VAD Threshold (%)" = 50.0;
 									};
@@ -90,6 +90,8 @@
 						"playback.props" = {
 							"media.class" = "Audio/Source";
 							"node.name" = "Virtual-Mic-Noise-Canceling";
+							"audio.channels" = 2;
+							"audio.position" = "FL,FR";
 						};
 					};
 				}
