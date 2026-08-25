@@ -16,6 +16,7 @@ hl.config({
 	general = {
 		gaps_in = 0,
 		gaps_out = 0,
+		border_size = 0,
 		layout = "hy3"
 	},
 	animations = {
@@ -30,9 +31,6 @@ hl.config({
 		follow_mouse = 2
 	}
 })
-
-hl.window_rule({ match = { workspace = "w[g1]" }, border_size = 0 })
-hl.window_rule({ match = { workspace = "w[t1]" }, border_size = 0 })
 
 hl.env("NIXOS_OZONE_WL", "1")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")

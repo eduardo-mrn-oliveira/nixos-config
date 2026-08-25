@@ -3,5 +3,6 @@ return {
 	alt_terminal = "ghostty",
 	file_manager = "nautilus --new-window",
 	launcher = 'pkill wofi || wofi --show drun --prompt ""',
-	editor = "zeditor"
+	editor = "zeditor",
+	browser = "zen-twilight"
 }

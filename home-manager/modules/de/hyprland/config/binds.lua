@@ -24,6 +24,8 @@ hl.bind(settings.mod .. " + R", hl.dsp.exec_cmd(apps.launcher))
 hl.bind(settings.mod .. " + T", hl.dsp.exec_cmd(apps.terminal))
 hl.bind(settings.mod .. " + SHIFT + T", hl.dsp.exec_cmd(apps.alt_terminal))
 hl.bind(settings.mod .. " + E", hl.dsp.exec_cmd(apps.file_manager))
+hl.bind(settings.mod .. " + X", hl.dsp.exec_cmd(apps.editor))
+hl.bind(settings.mod .. " + B", hl.dsp.exec_cmd(apps.browser))
 hl.bind(settings.mod .. " + Apostrophe",
 	hl.dsp.exec_cmd(apps.terminal .. " --working-directory " .. settings.nixos_config_dir))
 hl.bind(settings.mod .. " + Escape", hl.dsp.exec_cmd(apps.editor .. " -n " .. settings.nixos_config_dir))
