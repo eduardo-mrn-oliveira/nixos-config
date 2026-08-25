@@ -47,13 +47,14 @@
 		};
 
 		quickshell = {
-			url = "github:eduardo-moliveira/quickshell";
+			url = "github:quickshell-mirror/quickshell";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 
 		qs-qml-types = {
-			url = "gitlab:eduardo-mrn-oliveira/qs-qml-types";
+			url = "gitlab:eduardo-oliveira/qs-qml-types/dev";
 			inputs.nixpkgs.follows = "quickshell/nixpkgs";
+			inputs.quickshell.follows = "quickshell";
 		};
 
 		direnv-instant = {
