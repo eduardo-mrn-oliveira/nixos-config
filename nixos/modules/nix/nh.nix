@@ -1,6 +1,12 @@
-{root, ...}: {
+{
+	root,
+	rolling,
+	...
+}: {
 	programs.nh = {
 		enable = true;
+
+		package = rolling.nh;
 
 		flake = root;
 
