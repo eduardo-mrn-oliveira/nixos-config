@@ -249,7 +249,13 @@
 				"QML" = {
 					"formatter" = {
 						"external" = {
-							"command" = "qmlformat";
+							"command" = "sh";
+							"arguments" = [
+								"-c"
+								''DIR=$(dirname "$1"); TMP=$(mktemp "$DIR/.qmlfmt.XXXXXX.qml"); cat > "$TMP"; qmlformat "$TMP"; ERR=$?; rm -f "$TMP"; exit $ERR''
+								"--"
+								"{buffer_path}"
+							];
 						};
 					};
 				};

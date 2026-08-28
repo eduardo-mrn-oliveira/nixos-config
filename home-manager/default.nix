@@ -29,7 +29,6 @@ in {
 		./modules/alacritty.nix
 		./modules/atuin.nix
 		./modules/bash.nix
-		./modules/dunst.nix
 		./modules/fzf.nix
 		./modules/git.nix
 		./modules/nix-index.nix

@@ -11,6 +11,8 @@ import "./activate-linux"
 
 import "./prompts"
 
+import "./notifications"
+
 ShellRoot {
 	// Load singletons
 	Component.onCompleted: {
@@ -37,6 +39,10 @@ ShellRoot {
 				}
 
 				ActivateLinux {
+					screen: shell.modelData
+				}
+
+				NotificationOverlay {
 					screen: shell.modelData
 				}
 			}

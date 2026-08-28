@@ -1,0 +1,5 @@
+NotificationCard NotificationCard.qml
+NotificationOverlay NotificationOverlay.qml
+NotificationView NotificationView.qml
+
+singleton NotificationManager NotificationManager.qml
