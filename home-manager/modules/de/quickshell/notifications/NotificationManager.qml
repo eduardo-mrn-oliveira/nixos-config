@@ -26,14 +26,15 @@ Singleton {
 
 			const registered = NotificationServer.tryRegister({
 				supportsBody: true,
-				supportsBodyHyperlinks: false,
-				supportsBodyMarkup: false,
+				supportsBodyHyperlinks: true,
+				supportsBodyMarkup: true,
 				supportsIcon: true,
-				supportsImage: false,
+				supportsImage: true,
 				supportsActions: false,
 				supportsActionIcons: false,
 				supportsPersistence: false,
-				defaultExpireTimeoutMs: 2500
+				defaultExpireTimeoutMs: 2500,
+				forceImageAsIconApps: ["vesktop", "discord", "org.gnome.Nautilus"]
 			});
 
 			if (!registered && attempts >= 0) {

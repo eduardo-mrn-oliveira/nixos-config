@@ -46,8 +46,9 @@ Rectangle {
 		}
 	}
 
-	TapHandler {
-		onTapped: root.modelData.requestDismiss()
+	MouseArea {
+		anchors.fill: parent
+		onClicked: root.modelData.requestDismiss()
 	}
 
 	Timer {
@@ -172,6 +173,16 @@ Rectangle {
 					font.pixelSize: Theme.values.fontSize - 3
 
 					wrapMode: Text.WrapAnywhere
+
+					textFormat: Text.StyledText
+
+					onLinkActivated: function (link) {
+						Qt.openUrlExternally(link);
+					}
+
+					HoverHandler {
+						cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+					}
 				}
 			}
 		}
