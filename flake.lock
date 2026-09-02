@@ -796,11 +796,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788209016,
-        "narHash": "sha256-8csSQMtmejf7I7P5SrkEVDxgCS8abdyVkiNA4dZw8/w=",
+        "lastModified": 1788321296,
+        "narHash": "sha256-Jkc2ZTVv+6FGsfBHQoYdiWP4KI2bO9ChhfxYnl6XCL0=",
         "owner": "eduardo-oliveira",
         "repo": "qs-qml-types",
-        "rev": "821a3af2712b5bb5a0017ed9cf79e7253c79c38a",
+        "rev": "d0c4f337b464b58e8aee63fbb20cfd43b1498829",
         "type": "gitlab"
       },
       "original": {
