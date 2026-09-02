@@ -30,7 +30,7 @@ Singleton {
 				supportsBodyMarkup: true,
 				supportsIcon: true,
 				supportsImage: true,
-				supportsActions: false,
+				supportsActions: true,
 				supportsActionIcons: false,
 				supportsPersistence: false,
 				defaultExpireTimeoutMs: 2500,

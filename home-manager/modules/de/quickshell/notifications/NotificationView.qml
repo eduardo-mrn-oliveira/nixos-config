@@ -13,7 +13,7 @@ Item {
 		root.parent = container;
 	}
 
-	// This may act weird sometimes
+	// This may act weird sometimes (especially on reloads)
 	property Region region: Region {}
 
 	property int hoverIndex: -1

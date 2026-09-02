@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
@@ -42,7 +44,11 @@ Rectangle {
 		}
 
 		function onTimeoutExtended() {
-			expirationTimer.restart();
+			if (root.modelData.hasTimeout) {
+				expirationTimer.restart();
+			} else {
+				expirationTimer.stop();
+			}
 		}
 	}
 
@@ -145,7 +151,7 @@ Rectangle {
 			ColumnLayout {
 				Layout.fillWidth: true
 
-				spacing: 4
+				spacing: 8
 
 				Text {
 					Layout.fillWidth: true
@@ -172,7 +178,7 @@ Rectangle {
 					font.family: Theme.values.fontMonospace
 					font.pixelSize: Theme.values.fontSize - 3
 
-					wrapMode: Text.WrapAnywhere
+					wrapMode: Text.Wrap
 
 					textFormat: Text.StyledText
 
@@ -205,6 +211,73 @@ Rectangle {
 			asynchronous: true
 			cache: true
 			mipmap: true
+		}
+
+		Flow {
+			id: actionsFlow
+			Layout.fillWidth: true
+			spacing: 8
+
+			visible: actionsRepeater.count > 0
+
+			Repeater {
+				id: actionsRepeater
+				model: root.modelData.actions
+
+				delegate: Item {
+					id: actionDelegate
+					required property var modelData
+
+					width: actionsFlow.width
+					height: actionLayout.implicitHeight
+
+					RowLayout {
+						id: actionLayout
+						anchors.fill: parent
+						spacing: 12
+
+						Text {
+							text: "("
+
+							color: actionMouseArea.containsMouse ? Theme.values.textPrimary : Theme.values.textMuted
+
+							font.family: Theme.values.fontMonospace
+							font.pixelSize: Theme.values.fontSize - 2
+						}
+
+						Text {
+							Layout.fillWidth: true
+
+							text: actionDelegate.modelData.label
+
+							color: actionMouseArea.containsMouse ? Theme.values.textPrimary : Theme.values.textMuted
+
+							font.family: Theme.values.fontMonospace
+							font.pixelSize: Theme.values.fontSize - 2
+
+							horizontalAlignment: Text.AlignHCenter
+							elide: Text.ElideRight
+						}
+
+						Text {
+							text: ")"
+
+							color: actionMouseArea.containsMouse ? Theme.values.textPrimary : Theme.values.textMuted
+
+							font.family: Theme.values.fontMonospace
+							font.pixelSize: Theme.values.fontSize - 2
+						}
+					}
+
+					MouseArea {
+						id: actionMouseArea
+						anchors.fill: parent
+						hoverEnabled: true
+						cursorShape: Qt.PointingHandCursor
+						onClicked: actionDelegate.modelData.invoke()
+					}
+				}
+			}
 		}
 	}
 }
