@@ -220,16 +220,69 @@ Rectangle {
 
 			visible: actionsRepeater.count > 0
 
+			readonly property real halfWidth: Math.max(0, (width - spacing) / 2)
+			property var assignedWidths: []
+
+			function recalculateLayout() {
+				if (!actionsRepeater || actionsRepeater.count === 0) {
+					return;
+				}
+
+				const newWidths = [];
+				let i = 0;
+
+				while (i < actionsRepeater.count) {
+					const item = actionsRepeater.itemAt(i);
+
+					if (!item) {
+						return;
+					}
+
+					if (item.implicitWidth > halfWidth) {
+						newWidths[i] = width;
+						i++;
+					} else {
+						if (i + 1 < actionsRepeater.count) {
+							const nextItem = actionsRepeater.itemAt(i + 1);
+							if (nextItem && nextItem.implicitWidth <= halfWidth) {
+								newWidths[i] = halfWidth;
+								newWidths[i + 1] = halfWidth;
+								i += 2;
+							} else {
+								newWidths[i] = width;
+								i++;
+							}
+						} else {
+							newWidths[i] = width;
+							i++;
+						}
+					}
+				}
+
+				assignedWidths = newWidths;
+			}
+
+			onWidthChanged: recalculateLayout()
+			onSpacingChanged: recalculateLayout()
+
 			Repeater {
 				id: actionsRepeater
 				model: root.modelData.actions
 
+				onCountChanged: actionsFlow.recalculateLayout()
+
 				delegate: Item {
 					id: actionDelegate
+					required property int index
 					required property var modelData
 
-					width: actionsFlow.width
+					implicitWidth: actionLayout.implicitWidth
+
+					width: actionsFlow.assignedWidths[index] !== undefined ? actionsFlow.assignedWidths[index] : actionsFlow.width
 					height: actionLayout.implicitHeight
+
+					onImplicitWidthChanged: actionsFlow.recalculateLayout()
+					Component.onCompleted: actionsFlow.recalculateLayout()
 
 					RowLayout {
 						id: actionLayout
